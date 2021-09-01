@@ -2,7 +2,7 @@
   "name": "eloquent-javascript",
   "version": "1.0.0",
   "description": "",
-  "main": "chapter2.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest"
   },
@@ -10,5 +10,6 @@
   "license": "ISC",
   "devDependencies": {
     "jest": "^27.1.0"
-  }
+  },
+  "type": "module"
 }
