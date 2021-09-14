@@ -1,6 +1,7 @@
 //Chapter 2
 
 //Looping a triangle
+//My solution
 //Made a function instead to practice Jest at the same time
 const triangle = (length) => {
   let triangle = '';
@@ -14,10 +15,11 @@ const triangle = (length) => {
 };
 
 //Solution in book
-for (let line = '#'; line.length < 8; line += '#') console.log(line);
+for (let line = '#'; line.length < 8; line += '#') /* console.log(line) */;
 
 
 //FizzBuzz
+//My solution
 const fizzBuzz = (number) => {
   return Array.from({ length: number }, (el, i) => {
     return i + 1;
@@ -34,11 +36,11 @@ for (let n = 1; n <= 100; n++) {
   let output = '';
   if (n % 3 == 0) output += 'Fizz';
   if (n % 5 == 0) output += 'Buzz';
-  console.log(output || n);
+/*   console.log(output || n); */
 }
 
 //Chessboard
-
+//My solution
 const chess = (size) => {
   let chessboard = '';
   for (let i = 0; i < size; i++) {
@@ -71,6 +73,6 @@ for (let y = 0; y < size; y++) {
   board += '\n';
 }
 
-console.log(board);
+/* console.log(board); */
 
 module.exports = { triangle, fizzBuzz, chess };

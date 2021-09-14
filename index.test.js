@@ -1,6 +1,7 @@
 //Chapter 2
 //Looping a triangle
-const {triangle, fizzBuzz, chess } = require('./chapter2.js');
+const { triangle, fizzBuzz, chess } = require('./chapter2.js');
+const { min, isEven } = require('./chapter3.js');
 
 describe('Looping a triangle', () => {
   test('Should output a triangle', () => {
@@ -32,5 +33,24 @@ describe('Fizz Buzz', () => {
 describe('Chessboard', () => {
   test('Should create chessboard', () => {
     expect(chess(8)).toEqual(' # # # #\n# # # # \n # # # #\n# # # # \n # # # #\n# # # # \n # # # #\n# # # # \n');
+  });
+});
+
+//Minumum
+
+describe('Minimum', () => {
+  test('Should return the smallest number', () => {
+    expect(min(0, 10)).toEqual(0);
+    expect(min(0, -10)).toEqual(-10);
+  });
+});
+
+//Recursion
+
+describe('Recursion', () => {
+  test('Should return if number is even or not', () => {
+    expect(isEven(50)).toBe(true);
+    expect(isEven(75)).toBe(false);
+    expect(isEven(-1)).toBe(false);
   });
 });

@@ -1,0 +1,31 @@
+//Minimum
+//My solution
+const min = (number1, number2) => {
+  return number1 < number2 ? number1 : number2;
+};
+
+//Solution on book
+/* function min(a, b) {
+  if (a < b) return a;
+  else return b;
+}
+ */
+
+//Recursion
+//My solution
+const isEven = (number) => {
+  if (number < 0) number = number * Math.sign(number);
+  if (number === 0) return true;
+  if (number === 1) return false;
+  return isEven(number - 2);
+};
+
+//Solution in book
+/* function isEven(n) {
+  if (n == 0) return true;
+  else if (n == 1) return false;
+  else if (n < 0) return isEven(-n);
+  else return isEven(n - 2);
+} */
+
+module.exports = { min, isEven };
