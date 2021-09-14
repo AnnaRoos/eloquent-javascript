@@ -1,7 +1,7 @@
 //Chapter 2
 //Looping a triangle
 const { triangle, fizzBuzz, chess } = require('./chapter2.js');
-const { min, isEven } = require('./chapter3.js');
+const { min, isEven, countChar } = require('./chapter3.js');
 
 describe('Looping a triangle', () => {
   test('Should output a triangle', () => {
@@ -52,5 +52,14 @@ describe('Recursion', () => {
     expect(isEven(50)).toBe(true);
     expect(isEven(75)).toBe(false);
     expect(isEven(-1)).toBe(false);
+  });
+});
+
+//Bean counting
+
+describe('Bean counting', () => {
+  test('Should return the number of a specific character in a string', () => {
+    expect(countChar('BBC', 'B')).toEqual(2);
+    expect(countChar('kakkerlak', 'k')).toEqual(4);
   });
 });

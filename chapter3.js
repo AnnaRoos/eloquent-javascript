@@ -28,4 +28,27 @@ const isEven = (number) => {
   else return isEven(n - 2);
 } */
 
-module.exports = { min, isEven };
+//Bean counting
+
+const countChar = (word, char) => {
+  let result = 0;
+  for (let i = 0; i < word.length; i++) {
+    if (char === word[i]) {
+      result++;
+    }
+  }
+  return result;
+};
+
+//Solution in book
+/* function countChar(string, ch) {
+  let counted = 0;
+  for (let i = 0; i < string.length; i++) {
+    if (string[i] == ch) {
+      counted += 1;
+    }
+  }
+  return counted;
+} */
+
+module.exports = { min, isEven, countChar };
