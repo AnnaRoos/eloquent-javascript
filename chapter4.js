@@ -5,7 +5,10 @@
 const range = (start, end) => {
   let length = end - start + 1;
   let operator = 1;
-  if (start > end) { length = start - end + 1; operator = -1; }
+  if (start > end) {
+    length = start - end + 1;
+    operator = -1;
+  }
 
   return Array(length)
     .fill(start, 0, length)
@@ -36,4 +39,46 @@ function sum(array) {
   return total;
 } */
 
-module.exports = { range, sum };
+//Reversing an array (without Array.reverse)
+
+//Return new array
+const reverseArray = (array) => {
+  let reversed = [];
+  for (let i = array.length-1; i >= 0; i--) {
+    reversed.push(array[i]);
+  }
+  return reversed;
+};
+
+//Modify existing array
+let arrayValue = [1, 2, 3, 4, 5];
+const reverseArrayInPlace = (array, start = 0, end = array.length -1) => {
+  if (start >= end) return array;
+  let saved = array[start];
+  array[start] = array[end];
+  array[end] = saved;
+  return reverseArrayInPlace(array, start + 1, end - 1);
+};
+
+reverseArrayInPlace(arrayValue);
+
+
+//Solution in book
+/* function reverseArray(array) {
+  let output = [];
+  for (let i = array.length - 1; i >= 0; i--) {
+    output.push(array[i]);
+  }
+  return output;
+}
+
+function reverseArrayInPlace(array) {
+  for (let i = 0; i < Math.floor(array.length / 2); i++) {
+    let old = array[i];
+    array[i] = array[array.length - 1 - i];
+    array[array.length - 1 - i] = old;
+  }
+  return array;
+} */
+
+module.exports = { range, sum, reverseArray, arrayValue };
