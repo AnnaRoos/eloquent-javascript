@@ -2,6 +2,7 @@
 //Looping a triangle
 const { triangle, fizzBuzz, chess } = require('./chapter2.js');
 const { min, isEven, countChar } = require('./chapter3.js');
+const { range, sum } = require('./chapter4.js');
 
 describe('Looping a triangle', () => {
   test('Should output a triangle', () => {
@@ -52,6 +53,7 @@ describe('Recursion', () => {
     expect(isEven(50)).toBe(true);
     expect(isEven(75)).toBe(false);
     expect(isEven(-1)).toBe(false);
+    expect(isEven(-10)).toBe(true);
   });
 });
 
@@ -61,5 +63,15 @@ describe('Bean counting', () => {
   test('Should return the number of a specific character in a string', () => {
     expect(countChar('BBC', 'B')).toEqual(2);
     expect(countChar('kakkerlak', 'k')).toEqual(4);
+  });
+});
+
+//The sum of a range
+
+describe('The sum of a range', () => {
+  test('Range should create an array of numbers between to given numbers and sum should add them together', () => {
+    expect(range(1, 10)).toEqual([1,2,3,4,5,6,7,8,9,10]);
+    expect(range(5, 2, -1)).toEqual([5, 4, 3, 2]);
+    expect(sum(range(1,10))).toEqual(55);
   });
 });

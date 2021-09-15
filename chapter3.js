@@ -14,7 +14,7 @@ const min = (number1, number2) => {
 //Recursion
 //My solution
 const isEven = (number) => {
-  if (number < 0) number = number * Math.sign(number);
+  if (number < 0) number = Math.abs(number);
   if (number === 0) return true;
   if (number === 1) return false;
   return isEven(number - 2);
@@ -32,10 +32,8 @@ const isEven = (number) => {
 
 const countChar = (word, char) => {
   let result = 0;
-  for (let i = 0; i < word.length; i++) {
-    if (char === word[i]) {
-      result++;
-    }
+  for (letter of word) {
+    if (char === letter) result++;
   }
   return result;
 };
@@ -50,5 +48,6 @@ const countChar = (word, char) => {
   }
   return counted;
 } */
+
 
 module.exports = { min, isEven, countChar };
