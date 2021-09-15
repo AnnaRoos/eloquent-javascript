@@ -81,4 +81,30 @@ function reverseArrayInPlace(array) {
   return array;
 } */
 
-module.exports = { range, sum, reverseArray, arrayValue };
+
+//A list
+
+
+
+const arrayToList = (array, list = null) => {
+  if (array.length === 0) return list;
+  let node = { value: null, rest: null };
+  node.value = array[array.length -1];
+  if (!list) {
+    list = node;
+  } else {
+    node.rest = list;
+    list = node;
+  }
+  array.pop();
+  return arrayToList(array, list);
+};
+
+const listToArray = (list, array = []) => {
+  if (!list) return array;
+  array.push(list.value);
+  return listToArray(list.rest, array);
+};
+
+
+module.exports = { range, sum, reverseArray, arrayValue, arrayToList, listToArray };
