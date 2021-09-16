@@ -2,7 +2,7 @@
 //Looping a triangle
 const { triangle, fizzBuzz, chess } = require('./chapter2.js');
 const { min, isEven, countChar } = require('./chapter3.js');
-const { range, sum, reverseArray, arrayValue, arrayToList, listToArray } = require('./chapter4.js');
+const { range, sum, reverseArray, arrayValue, arrayToList, listToArray, prepend, nth } = require('./chapter4.js');
 
 describe('Looping a triangle', () => {
   test('Should output a triangle', () => {
@@ -96,13 +96,13 @@ describe('A list', () => {
     expect(listToArray(arrayToList([10, 20, 30]))).toEqual([10, 20, 30]);
   });
   test('Take an element and create a new list with that value at the beginning', () => {
-    expect(
-      prepend(10, prepend(20, null)).toEqual({
+    expect(prepend(10, prepend(20, null))).toEqual({
         value: 10,
         rest: { value: 20, rest: null },
-      }));
+      });
   });
   test('Return the element at the position given, starting from 0', () => {
-    expect(nth(arrayToList([10, 20, 30]), 1).toEqual(20))
+    expect(nth(arrayToList([10, 20, 30]), 1)).toEqual(20);
+    expect(nth(arrayToList([10, 20, 30]), 4)).toEqual(undefined);
   });
 });

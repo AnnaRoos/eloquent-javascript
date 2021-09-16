@@ -84,21 +84,12 @@ function reverseArrayInPlace(array) {
 
 //A list
 
-
-
 const arrayToList = (array, list = null) => {
   if (array.length === 0) return list;
-  let node = { value: null, rest: null };
-  node.value = array[array.length -1];
-  if (!list) {
-    list = node;
-  } else {
-    node.rest = list;
-    list = node;
-  }
-  array.pop();
-  return arrayToList(array, list);
+  list = prepend(array[array.length - 1], list);
+  return arrayToList(array.slice(0,array.length -1), list);
 };
+
 
 const listToArray = (list, array = []) => {
   if (!list) return array;
@@ -106,5 +97,49 @@ const listToArray = (list, array = []) => {
   return listToArray(list.rest, array);
 };
 
+const prepend = (number, list = null) => {
+    let node = { value: null, rest: null };
+    node.value = number;
+    if (!list) {
+      list = node;
+    } else {
+      node.rest = list;
+      list = node;
+    }
+  return list;
+};
 
-module.exports = { range, sum, reverseArray, arrayValue, arrayToList, listToArray };
+const nth = (list, number) => {
+  if (!list) return undefined;
+  if (number === 0) return list.value;
+  return nth(list.rest, number - 1);
+};
+
+//Solution in book
+/* function arrayToList(array) {
+  let list = null;
+  for (let i = array.length - 1; i >= 0; i--) {
+    list = { value: array[i], rest: list };
+  }
+  return list;
+}
+
+function listToArray(list) {
+  let array = [];
+  for (let node = list; node; node = node.rest) {
+    array.push(node.value);
+  }
+  return array;
+}
+
+function prepend(value, list) {
+  return { value, rest: list };
+}
+
+function nth(list, n) {
+  if (!list) return undefined;
+  else if (n == 0) return list.value;
+  else return nth(list.rest, n - 1);
+} */
+
+module.exports = { range, sum, reverseArray, arrayValue, arrayToList, listToArray, prepend, nth };
