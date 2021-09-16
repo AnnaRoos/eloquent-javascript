@@ -2,7 +2,7 @@
 //Looping a triangle
 const { triangle, fizzBuzz, chess } = require('./chapter2.js');
 const { min, isEven, countChar } = require('./chapter3.js');
-const { range, sum, reverseArray, arrayValue, arrayToList, listToArray, prepend, nth } = require('./chapter4.js');
+const { range, sum, reverseArray, arrayValue, arrayToList, listToArray, prepend, nth, deepEqual } = require('./chapter4.js');
 
 describe('Looping a triangle', () => {
   test('Should output a triangle', () => {
@@ -104,5 +104,19 @@ describe('A list', () => {
   test('Return the element at the position given, starting from 0', () => {
     expect(nth(arrayToList([10, 20, 30]), 1)).toEqual(20);
     expect(nth(arrayToList([10, 20, 30]), 4)).toEqual(undefined);
+  });
+});
+
+//Deep equal
+
+//Reversing an array
+
+describe('Deep equal', () => {
+  test('Compare the properties of two objects', () => {
+    let obj = { here: { is: 'an' }, object: 2 };
+    expect(deepEqual(obj, obj)).toBe(true);
+    expect(deepEqual(obj, { here: 1, object: 2 })).toBe(false);
+    expect(deepEqual(obj, { here: { is: 'an' }, object: 2 })).toBe(true);
+    expect(deepEqual(obj, { here: { is: 'an' }, object: 2, hello: 'there' })).toBe(false);
   });
 });

@@ -44,7 +44,7 @@ function sum(array) {
 //Return new array
 const reverseArray = (array) => {
   let reversed = [];
-  for (let i = array.length-1; i >= 0; i--) {
+  for (let i = array.length - 1; i >= 0; i--) {
     reversed.push(array[i]);
   }
   return reversed;
@@ -52,7 +52,7 @@ const reverseArray = (array) => {
 
 //Modify existing array
 let arrayValue = [1, 2, 3, 4, 5];
-const reverseArrayInPlace = (array, start = 0, end = array.length -1) => {
+const reverseArrayInPlace = (array, start = 0, end = array.length - 1) => {
   if (start >= end) return array;
   let saved = array[start];
   array[start] = array[end];
@@ -61,7 +61,6 @@ const reverseArrayInPlace = (array, start = 0, end = array.length -1) => {
 };
 
 reverseArrayInPlace(arrayValue);
-
 
 //Solution in book
 /* function reverseArray(array) {
@@ -81,15 +80,13 @@ function reverseArrayInPlace(array) {
   return array;
 } */
 
-
 //A list
 
 const arrayToList = (array, list = null) => {
   if (array.length === 0) return list;
   list = prepend(array[array.length - 1], list);
-  return arrayToList(array.slice(0,array.length -1), list);
+  return arrayToList(array.slice(0, array.length - 1), list);
 };
-
 
 const listToArray = (list, array = []) => {
   if (!list) return array;
@@ -98,14 +95,14 @@ const listToArray = (list, array = []) => {
 };
 
 const prepend = (number, list = null) => {
-    let node = { value: null, rest: null };
-    node.value = number;
-    if (!list) {
-      list = node;
-    } else {
-      node.rest = list;
-      list = node;
-    }
+  let node = { value: null, rest: null };
+  node.value = number;
+  if (!list) {
+    list = node;
+  } else {
+    node.rest = list;
+    list = node;
+  }
   return list;
 };
 
@@ -142,4 +139,65 @@ function nth(list, n) {
   else return nth(list.rest, n - 1);
 } */
 
-module.exports = { range, sum, reverseArray, arrayValue, arrayToList, listToArray, prepend, nth };
+//Deep comaparison
+
+//My solution, not the prettiest ever...
+
+let obj = { here: { is: 'an' }, object: 2 };
+const deepEqual = (obj1, obj2) => {
+  for (const key in obj1) {
+    if (!obj2.hasOwnProperty(key)) {
+      return false;
+    }
+  }
+  for (const key in obj2) {
+    if (!obj1.hasOwnProperty(key)) {
+      return false;
+    }
+  }
+  for (const key1 in obj1) {
+    for (const key2 in obj2) {
+      if (
+        key1 === key2 &&
+        obj1[key1].constructor === Object &&
+        obj2[key2].constructor === Object
+      ) {
+        return deepEqual({ ...obj1[key1] }, { ...obj2[key2] });
+      } else if (key1 === key2 && obj1[key1] !== obj2[key2]) {
+        return false;
+      }
+    }
+  }
+  return true;
+};
+
+//Solution in book
+/* function deepEqual(a, b) {
+  if (a === b) return true;
+
+  if (a == null || typeof a != 'object' || b == null || typeof b != 'object')
+    return false;
+
+  let keysA = Object.keys(a),
+    keysB = Object.keys(b);
+
+  if (keysA.length != keysB.length) return false;
+
+  for (let key of keysA) {
+    if (!keysB.includes(key) || !deepEqual(a[key], b[key])) return false;
+  }
+
+  return true;
+} */
+
+module.exports = {
+  range,
+  sum,
+  reverseArray,
+  arrayValue,
+  arrayToList,
+  listToArray,
+  prepend,
+  nth,
+  deepEqual,
+};
