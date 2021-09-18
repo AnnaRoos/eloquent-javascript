@@ -2,14 +2,24 @@
 //Looping a triangle
 const { triangle, fizzBuzz, chess } = require('./chapter2.js');
 const { min, isEven, countChar } = require('./chapter3.js');
-const { range, sum, reverseArray, arrayValue, arrayToList, listToArray, prepend, nth, deepEqual } = require('./chapter4.js');
+const {
+  range,
+  sum,
+  reverseArray,
+  arrayValue,
+  arrayToList,
+  listToArray,
+  prepend,
+  nth,
+  deepEqual,
+} = require('./chapter4.js');
+const { flat } = require('./chapter5.js');
 
 describe('Looping a triangle', () => {
   test('Should output a triangle', () => {
     expect(triangle(7)).toEqual('#\n##\n###\n####\n#####\n######\n#######\n');
   });
 });
-
 
 //FizzBuzz
 
@@ -33,7 +43,9 @@ describe('Fizz Buzz', () => {
 
 describe('Chessboard', () => {
   test('Should create chessboard', () => {
-    expect(chess(8)).toEqual(' # # # #\n# # # # \n # # # #\n# # # # \n # # # #\n# # # # \n # # # #\n# # # # \n');
+    expect(chess(8)).toEqual(
+      ' # # # #\n# # # # \n # # # #\n# # # # \n # # # #\n# # # # \n # # # #\n# # # # \n'
+    );
   });
 });
 
@@ -70,9 +82,9 @@ describe('Bean counting', () => {
 
 describe('The sum of a range', () => {
   test('Range should create an array of numbers between to given numbers and sum should add them together', () => {
-    expect(range(1, 10)).toEqual([1,2,3,4,5,6,7,8,9,10]);
+    expect(range(1, 10)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     expect(range(5, 2, -1)).toEqual([5, 4, 3, 2]);
-    expect(sum(range(1,10))).toEqual(55);
+    expect(sum(range(1, 10))).toEqual(55);
   });
 });
 
@@ -97,9 +109,9 @@ describe('A list', () => {
   });
   test('Take an element and create a new list with that value at the beginning', () => {
     expect(prepend(10, prepend(20, null))).toEqual({
-        value: 10,
-        rest: { value: 20, rest: null },
-      });
+      value: 10,
+      rest: { value: 20, rest: null },
+    });
   });
   test('Return the element at the position given, starting from 0', () => {
     expect(nth(arrayToList([10, 20, 30]), 1)).toEqual(20);
@@ -117,6 +129,17 @@ describe('Deep equal', () => {
     expect(deepEqual(obj, obj)).toBe(true);
     expect(deepEqual(obj, { here: 1, object: 2 })).toBe(false);
     expect(deepEqual(obj, { here: { is: 'an' }, object: 2 })).toBe(true);
-    expect(deepEqual(obj, { here: { is: 'an' }, object: 2, hello: 'there' })).toBe(false);
+    expect(
+      deepEqual(obj, { here: { is: 'an' }, object: 2, hello: 'there' })
+    ).toBe(false);
+  });
+});
+
+//Flattening
+
+describe('Flattening', () => {
+  test('Turn array of arrays in to one array', () => {
+    let arrays = [[1, 2, 3], [4, 5], [6]];
+    expect(flat(arrays)).toEqual([1, 2, 3, 4, 5, 6]);
   });
 });
