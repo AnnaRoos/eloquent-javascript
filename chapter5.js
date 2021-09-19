@@ -20,4 +20,26 @@ const loop = (value, testFn, updateFn, bodyFn) => {
   }
 } */
 
-module.exports = { flat, loop };
+//Everything
+//My solutions
+const every1 = (array, test) => {
+  for (const item of array) if (!test(item)) return false;
+  return true;
+};
+
+const every2 = (array, test) => {
+  return !array.some(el => !test(el));
+};
+
+//Solution in book
+/* function every(array, predicate) {
+  for (let element of array) {
+    if (!predicate(element)) return false;
+  }
+  return true;
+}
+
+function every2(array, predicate) {
+  return !array.some((element) => !predicate(element));
+} */
+module.exports = { flat, loop, every1, every2 };

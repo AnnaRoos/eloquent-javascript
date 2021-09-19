@@ -13,7 +13,7 @@ const {
   nth,
   deepEqual,
 } = require('./chapter4.js');
-const { flat, loop } = require('./chapter5.js');
+const { flat, loop, every1, every2 } = require('./chapter5.js');
 
 describe('Looping a triangle', () => {
   test('Should output a triangle', () => {
@@ -167,5 +167,20 @@ describe('Loop', () => {
   );
 });
 
+//Everything
 
+describe('Everything', () => {
+  test('Returns true if every element in the array returns true - loop version', () => {
+    expect(every1([1, 2, 3], (n) => n < 10)).toBe(true);
+    expect(every1([2, 4, 16], (n) => n < 10)).toBe(false);
+    expect(every1([], (n) => n < 10)).toBe(true);
+  });
+});
 
+describe('Everything', () => {
+  test('Returns true if every element in the array returns true - some version', () => {
+    expect(every2([1, 2, 3], (n) => n < 10)).toBe(true);
+    expect(every2([2, 4, 16], (n) => n < 10)).toBe(false);
+    expect(every2([], (n) => n < 10)).toBe(true);
+  });
+});
