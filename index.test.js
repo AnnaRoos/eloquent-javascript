@@ -13,7 +13,7 @@ const {
   nth,
   deepEqual,
 } = require('./chapter4.js');
-const { flat } = require('./chapter5.js');
+const { flat, loop } = require('./chapter5.js');
 
 describe('Looping a triangle', () => {
   test('Should output a triangle', () => {
@@ -143,3 +143,29 @@ describe('Flattening', () => {
     expect(flat(arrays)).toEqual([1, 2, 3, 4, 5, 6]);
   });
 });
+
+//Loop
+
+describe('Loop', () => {
+  test(
+    'A higher order function that takes a value, a test function,' +
+      'an update function, and a body function',
+    () => {
+      const consoleSpy = jest.spyOn(console, 'log');
+      const number = 3;
+      loop(
+        number,
+        (n) => n > 0,
+        (n) => n - 1,
+        console.log
+      );
+
+      expect(consoleSpy).toHaveBeenCalledTimes(3);
+      expect(consoleSpy).toHaveBeenCalledWith(3);
+      expect(consoleSpy).toHaveBeenLastCalledWith(1);
+    }
+  );
+});
+
+
+
