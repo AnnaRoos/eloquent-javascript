@@ -13,7 +13,7 @@ const {
   nth,
   deepEqual,
 } = require('./chapter4.js');
-const { flat, loop, every1, every2 } = require('./chapter5.js');
+const { flat, loop, every1, every2, dominantDirection } = require('./chapter5.js');
 
 describe('Looping a triangle', () => {
   test('Should output a triangle', () => {
@@ -182,5 +182,15 @@ describe('Everything', () => {
     expect(every2([1, 2, 3], (n) => n < 10)).toBe(true);
     expect(every2([2, 4, 16], (n) => n < 10)).toBe(false);
     expect(every2([], (n) => n < 10)).toBe(true);
+  });
+});
+
+//Dominant direction
+
+describe('Dominant direction', () => {
+  test('Should return the dominant writing direction of a text', () => {
+        expect(dominantDirection('Hey, مساء الخير')).toBe('rtl');
+    expect(dominantDirection('Hello!')).toBe('ltr');
+
   });
 });
