@@ -1,5 +1,5 @@
-const { SCRIPTS } = require('./scripts.js');
-const { characterScript, countBy } = require('./05_higher_order.js');
+const { SCRIPTS } = require('./filesFromBook/scripts.js');
+const { characterScript, countBy } = require('./filesFromBook/05_higher_order.js');
 
 //Flattening
 
