@@ -13,7 +13,14 @@ const {
   nth,
   deepEqual,
 } = require('./chapter4.js');
-const { flat, loop, every1, every2, dominantDirection } = require('./chapter5.js');
+const {
+  flat,
+  loop,
+  every1,
+  every2,
+  dominantDirection,
+} = require('./chapter5.js');
+const { Vec } = require('./chapter6.js');
 
 describe('Looping a triangle', () => {
   test('Should output a triangle', () => {
@@ -189,8 +196,18 @@ describe('Everything', () => {
 
 describe('Dominant direction', () => {
   test('Should return the dominant writing direction of a text', () => {
-        expect(dominantDirection('Hey, مساء الخير')).toBe('rtl');
+    expect(dominantDirection('Hey, مساء الخير')).toBe('rtl');
     expect(dominantDirection('Hello!')).toBe('ltr');
+  });
+});
 
+//A vector type
+
+describe('A vector type', () => {
+  test('Should create a vector', () => {
+    console.log(new Vec(1, 2).plus(new Vec(2, 3)));
+    expect(new Vec(1, 2).plus(new Vec(2, 3))).toEqual({ x: 3, y: 5 });
+    expect(new Vec(1, 2).minus(new Vec(2, 3))).toEqual({ x: -1, y: -1 });
+    expect(new Vec(3, 4).length).toEqual(5);
   });
 });
