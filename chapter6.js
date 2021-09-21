@@ -6,11 +6,11 @@ class Vec {
     this.y = y;
   }
 
-  plus = (vec) => {
+  plus(vec) {
     return new Vec(this.x + vec.x, this.y + vec.y);
   };
 
-  minus = (vec) => {
+  minus(vec) {
     return new Vec(this.x - vec.x, this.y - vec.y);
   };
 
