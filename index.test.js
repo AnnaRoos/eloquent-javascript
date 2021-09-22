@@ -20,7 +20,7 @@ const {
   every2,
   dominantDirection,
 } = require('./chapter5.js');
-const { Vec } = require('./chapter6.js');
+const { Vec, Group } = require('./chapter6.js');
 
 describe('Looping a triangle', () => {
   test('Should output a triangle', () => {
@@ -205,9 +205,22 @@ describe('Dominant direction', () => {
 
 describe('A vector type', () => {
   test('Should create a vector', () => {
-    console.log(new Vec(1, 2).plus(new Vec(2, 3)));
     expect(new Vec(1, 2).plus(new Vec(2, 3))).toEqual({ x: 3, y: 5 });
     expect(new Vec(1, 2).minus(new Vec(2, 3))).toEqual({ x: -1, y: -1 });
     expect(new Vec(3, 4).length).toEqual(5);
   });
 });
+
+//Groups
+
+describe('Groups', () => {
+  test('Should create a class that works as a Set', () => {
+    let group = Group.from([10, 20]);
+    expect(group.has(10)).toBe(true);
+    expect(group.has(30)).toBe(false);
+    group.add(10);
+    group.delete(10);
+    expect(group.has(10)).toBe(false);
+  });
+});
+
