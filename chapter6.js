@@ -146,4 +146,20 @@ Group.prototype[Symbol.iterator] = function () {
 }
  */
 
+//Borrowing a method
+//let map = {one: true, two: true, hasOwnProperty: true};
+// Fix this call
+//console.log(map.hasOwnProperty("one"));
+// → true
+
+
+//My solution
+//console.log(hasOwnProperty.call(map, "one"));
+
+
+//Solution in book
+//console.log(Object.prototype.hasOwnProperty.call(map, 'one'));
+
+
+
 module.exports = { Vec, Group };
