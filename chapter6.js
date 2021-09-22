@@ -62,14 +62,14 @@ class Group {
     return this.values.includes(value);
   }
 
-  static from(itareble) {
-    let values = [];
-    for (const value of itareble) {
-      if (!values.includes(value)) {
-        values.push(value);
+  static from(values) {
+    let singles = [];
+    for (const value of values) {
+      if (!singles.includes(value)) {
+        singles.push(value);
       }
     }
-    return new Group(values);
+    return new Group(singles);
   }
 }
 
@@ -100,7 +100,50 @@ class Group {
     }
     return group;
   }
+
+    [Symbol.iterator]() {
+    return new GroupIterator(this);
+  }
 } */
 
+
+//Iterable Groups
+//My solution
+class GroupIterator {
+  constructor(group) {
+    this.x = 0;
+    this.group = group;
+  }
+
+  next() {
+    if (!this.group.values[this.x]) return { done: true }
+    let value = this.group.values[this.x];
+    this.x++;
+    return {value: value, done: false}
+  }
+}
+
+Group.prototype[Symbol.iterator] = function () {
+  return new GroupIterator(this);
+};
+
+//Solution from book, the Symbol.iterator method is in the class above
+/* class GroupIterator {
+  constructor(group) {
+    this.group = group;
+    this.position = 0;
+  }
+
+  next() {
+    if (this.position >= this.group.members.length) {
+      return { done: true };
+    } else {
+      let result = { value: this.group.members[this.position], done: false };
+      this.position++;
+      return result;
+    }
+  }
+}
+ */
 
 module.exports = { Vec, Group };

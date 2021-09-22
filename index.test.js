@@ -152,13 +152,15 @@ describe('Flattening', () => {
 });
 
 //Loop
-
+const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
 describe('Loop', () => {
+  beforeEach(() => {
+    consoleSpy.mockClear();
+  });
   test(
     'A higher order function that takes a value, a test function,' +
       'an update function, and a body function',
     () => {
-      const consoleSpy = jest.spyOn(console, 'log');
       const number = 3;
       loop(
         number,
@@ -224,3 +226,19 @@ describe('Groups', () => {
   });
 });
 
+//Iterable groups
+
+describe('Iterable groups', () => {
+      beforeEach(() => {
+        consoleSpy.mockClear();
+      });
+  test('The Group should be iterable', () => {
+
+    for (let value of Group.from(['a', 'b', 'c'])) {
+      console.log(value);
+    }
+    expect(consoleSpy).toHaveBeenCalledTimes(3);
+    expect(consoleSpy).toHaveBeenCalledWith('a');
+    expect(consoleSpy).toHaveBeenLastCalledWith('c');
+  });
+});
