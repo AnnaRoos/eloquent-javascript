@@ -1,5 +1,3 @@
-//Chapter 2
-//Looping a triangle
 const { triangle, fizzBuzz, chess } = require('./chapter2.js');
 const { min, isEven, countChar } = require('./chapter3.js');
 const {
@@ -21,6 +19,9 @@ const {
   dominantDirection,
 } = require('./chapter5.js');
 const { Vec, Group } = require('./chapter6.js');
+const { PGroup } = require('./chapter7.js');
+
+//Looping a triangle
 
 describe('Looping a triangle', () => {
   test('Should output a triangle', () => {
@@ -152,7 +153,7 @@ describe('Flattening', () => {
 });
 
 //Loop
-const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+/* const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
 describe('Loop', () => {
   beforeEach(() => {
     consoleSpy.mockClear();
@@ -174,7 +175,7 @@ describe('Loop', () => {
       expect(consoleSpy).toHaveBeenLastCalledWith(1);
     }
   );
-});
+}); */
 
 //Everything
 
@@ -228,7 +229,7 @@ describe('Groups', () => {
 
 //Iterable groups
 
-describe('Iterable groups', () => {
+/* describe('Iterable groups', () => {
       beforeEach(() => {
         consoleSpy.mockClear();
       });
@@ -242,3 +243,19 @@ describe('Iterable groups', () => {
     expect(consoleSpy).toHaveBeenLastCalledWith('c');
   });
 });
+ */
+
+//Persistent Groups
+
+describe('Persistent Groups', () => {
+  test('Should create a class that works as a Set and creates a' + 
+  'new Set for every addition or deletion', () => {
+    let a = PGroup.empty.add('a');
+    let ab = a.add('b');
+    let b = ab.delete('a');
+    expect(b.has('b')).toBe(true);
+    expect(a.has('b')).toBe(false);
+    expect(b.has('a')).toBe(false);
+  });
+});
+
