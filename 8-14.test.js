@@ -1,4 +1,6 @@
 const { PGroup } = require('./chapter7.js');
+const { reliableMultiply } = require('./chapter8.js');
+
 //Persistent Groups
 
 describe('Persistent Groups', () => {
