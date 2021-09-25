@@ -32,7 +32,7 @@ const isEven = (number) => {
 
 const countChar = (word, char) => {
   let result = 0;
-  for (letter of word) {
+  for (const letter of word) {
     if (char === letter) result++;
   }
   return result;

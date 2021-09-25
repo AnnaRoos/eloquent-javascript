@@ -10,7 +10,7 @@ const range = (start, end) => {
     operator = -1;
   }
 
-  return Array(length)
+  return new Array(length)
     .fill(start, 0, length)
     .map((el, i) => el + i * operator);
 };
