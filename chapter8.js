@@ -38,5 +38,48 @@ function reliableMultiply(a, b) {
   }
 } */
 
+//The locked box
 
-module.exports = { reliableMultiply };
+const box = {
+  locked: true,
+  unlock() {
+    this.locked = false;
+  },
+  lock() {
+    this.locked = true;
+  },
+  _content: [],
+  get content() {
+    if (this.locked) throw new Error('Locked!');
+    return this._content;
+  },
+};
+
+
+//My solution
+function withBoxUnlocked(body) {
+  let wasClosed = box.locked;
+  if (wasClosed) box.unlock();
+  try {
+    body();
+  } finally {
+    if (wasClosed) box.lock();
+  }
+}
+
+//Solution in book
+/* function withBoxUnlocked(body) {
+  let locked = box.locked;
+  if (!locked) {
+    return body();
+  }
+
+  box.unlock();
+  try {
+    return body();
+  } finally {
+    box.lock();
+  }
+} */
+
+module.exports = { reliableMultiply, withBoxUnlocked, box };
