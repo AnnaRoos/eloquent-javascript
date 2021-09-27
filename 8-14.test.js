@@ -59,45 +59,47 @@ describe('Regexp golf', () => {
     () => {
       expect(
         verify(/ca(r|t)/, ['my car', 'bad cats'], ['camper', 'high art'])
-      ).toEqual(['my car', 'bad cats']); //car, cat
+      ).toEqual({ 'matches': ['my car', 'bad cats'], 'wrongMatches': [] }); //car, cat
       expect(
         verify(/pr?op/, ['pop culture', 'mad props'], ['plop', 'prrrop'])
-      ).toEqual(['pop culture', 'mad props']); //pop, prop
+      ).toEqual({ 'matches': ['pop culture', 'mad props'], 'wrongMatches': [] }); //pop, prop
       expect(
         verify(
           /ferr(et|y|ari)/,
           ['ferret', 'ferry', 'ferrari'],
           ['ferrum', 'transfer A']
         )
-      ).toEqual(['ferret', 'ferry', 'ferrari']); //ferret, ferry, ferrari
+      ).toEqual({ 'matches': ['ferret', 'ferry', 'ferrari'], 'wrongMatches': [] }); //ferret, ferry, ferrari
       expect(
         verify(
           /ious\b/,
           ['how delicious', 'spacious room'],
           ['ruinous', 'consciousness']
         )
-      ).toEqual(['how delicious', 'spacious room']); //Any word ending in ious
+      ).toEqual({ 'matches': ['how delicious', 'spacious room'], 'wrongMatches': [] }); //Any word ending in ious
       expect(
         verify(/\s[.,:;]/, ['bad punctuation .'], ['escape the period'])
-      ).toEqual(['bad punctuation .']); //A whitespace character followed by a period, comma, colon, or semicolon
+      ).toEqual({ 'matches': ['bad punctuation .'], 'wrongMatches': [] }); //A whitespace character followed by a period, comma, colon, or semicolon
       expect(
         verify(
           /\w{7}/,
           ['Siebentausenddreihundertzweiundzwanzig'],
           ['no', 'three small words']
         )
-      ).toEqual(['Siebentausenddreihundertzweiundzwanzig']); //A word longer than six letters
+      ).toEqual({ 'matches': ['Siebentausenddreihundertzweiundzwanzig'], 'wrongMatches': [] }); //A word longer than six letters
       expect(
         verify(
           /\b[^\se]+\b/i,
           ['red platypus', 'wobbling nest'],
           ['earth bed', 'learning ape', 'BEET']
         )
-      ).toEqual(['red platypus', 'wobbling nest']); //A word without the letter e (or E)
+      ).toEqual({
+        'matches': ['red platypus', 'wobbling nest'],
+        'wrongMatches': [],
+      }); //A word without the letter e (or E)
     }
   );
 });
-
 
 //Solution in book
 /ca[rt]/;
@@ -121,3 +123,36 @@ describe('Quoting style', () => {
 
 //Solution in book
 //text.replace(/(^|\W)'|'(\W|$)/g, '$1"$2');
+
+//Numbers again
+
+describe('Numbers again', () => {
+  test('Swap single quotes for double while keeping singles in words', () => {
+    //My solution
+    let numberRegex = /^[+-]?(\.\d+|\d+\.|\d+)(e\+|e-)?\d*e?\d*$/i;
+    //Solution in book
+    /^[+\-]?(\d+(\.\d*)?|\.\d+)([eE][+\-]?\d+)?$/;
+    let correctNumbers = [
+      '1',
+      '-1',
+      '+15',
+      '1.55',
+      '.5',
+      '5.',
+      '1.3e2',
+      '1E-4',
+      '1e+12',
+    ];
+    let incorrectNumbers = [
+      '1a',
+      '+-1',
+      '1.2.3',
+      '1+1',
+      '1e4.5',
+      '.5.',
+      '1f5',
+      '.',
+    ];
+    expect(verify(numberRegex, correctNumbers, incorrectNumbers)).toEqual({ 'matches': correctNumbers, 'wrongMatches': [] });
+  });
+});
