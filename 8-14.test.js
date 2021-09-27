@@ -107,3 +107,17 @@ describe('Regexp golf', () => {
 /\s[.,:;]/;
 /\w{7}/;
 /\b[^\We]+\b/i;
+
+//Quoting style
+
+describe('Quoting style', () => {
+  test('Swap single quotes for double while keeping singles in words', () => {
+    let text = "'I'm the cook,' he said, 'it's my job.'";
+    expect(text.replace(/(\W)(')|^'/g, '$1"')).toEqual(
+      `"I'm the cook," he said, "it's my job."`
+    );
+  });
+});
+
+//Solution in book
+//text.replace(/(^|\W)'|'(\W|$)/g, '$1"$2');
