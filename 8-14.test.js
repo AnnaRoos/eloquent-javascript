@@ -127,9 +127,9 @@ describe('Quoting style', () => {
 //Numbers again
 
 describe('Numbers again', () => {
-  test('Swap single quotes for double while keeping singles in words', () => {
-    //My solution
-    let numberRegex = /^[+-]?(\.\d+|\d+\.|\d+)(e\+|e-)?\d*e?\d*$/i;
+  test('Write a regex for all types of Javascript numbers', () => {
+    //My solution - just tried to make it pass
+    let numberRegex = /^[+-]?(\d+(\.\d*)?|\.\d+)(e[+-]?\d*)?$/i;
     //Solution in book
     /^[+\-]?(\d+(\.\d*)?|\.\d+)([eE][+\-]?\d+)?$/;
     let correctNumbers = [
