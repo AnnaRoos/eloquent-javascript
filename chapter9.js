@@ -1,4 +1,5 @@
 //Regexp golf
+//Numbers again
 
 function verify(regexp, yes, no) {
   // Ignore unfinished exercises
@@ -16,6 +17,6 @@ function verify(regexp, yes, no) {
   return { 'matches': matches, 'wrongMatches': wrongMatches };
 }
 
-//Numbers again
+
 
 module.exports = { verify };

@@ -128,8 +128,8 @@ describe('Quoting style', () => {
 
 describe('Numbers again', () => {
   test('Write a regex for all types of Javascript numbers', () => {
-    //My solution - just tried to make it pass
-    let numberRegex = /^[+-]?(\d+(\.\d*)?|\.\d+)(e[+-]?\d*)?$/i;
+    //My solution 
+    let numberRegex = /^[+-]?(\d+(\.\d*)?|\.\d+)(e[+-]?\d+)?$/i;
     //Solution in book
     /^[+\-]?(\d+(\.\d*)?|\.\d+)([eE][+\-]?\d+)?$/;
     let correctNumbers = [
