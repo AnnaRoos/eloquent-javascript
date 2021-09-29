@@ -1,6 +1,7 @@
 const { PGroup } = require('./chapter7.js');
 const { reliableMultiply, withBoxUnlocked, box } = require('./chapter8.js');
 const { verify } = require('./chapter9.js');
+const { locateScalpel, locateScalpel2 } = require('./chapter11.js');
 
 //Persistent Groups
 
@@ -154,5 +155,14 @@ describe('Numbers again', () => {
       '.',
     ];
     expect(verify(numberRegex, correctNumbers, incorrectNumbers)).toEqual({ 'matches': correctNumbers, 'wrongMatches': [] });
+  });
+});
+
+//Tracking the scalpel
+
+describe('Tracking the scalpel', () => {
+  test('Should return the location of the scalpel – first function should use async await, the other Promises', () => {
+    expect(locateScalpel(bigOak)).toEqual('Butcher Shop');
+    expect(locateScalpel2(bigOak)).toEqual('Butcher Shop');
   });
 });
