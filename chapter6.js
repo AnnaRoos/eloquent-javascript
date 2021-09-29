@@ -146,6 +146,13 @@ Group.prototype[Symbol.iterator] = function () {
 }
  */
 
+//The iterator can also be written as a generator:
+/* Group.prototype[Symbol.iterator] = function* () {
+  for (let i = 0; i < this.members.length; i++) {
+    yield this.members[i];
+  }
+}; */
+
 //Borrowing a method
 //let map = {one: true, two: true, hasOwnProperty: true};
 // Fix this call
