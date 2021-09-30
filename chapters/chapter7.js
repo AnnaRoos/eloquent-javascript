@@ -2,7 +2,7 @@
 //Solutions from book, did not finish this one
 
 
-const {routeRobot, goalOrientedRobot, VillageState, findRoute } = require('./filesFromBook/07_robot.js');
+const {routeRobot, goalOrientedRobot, VillageState, findRoute } = require('../filesFromBook/07_robot.js');
 
 function countSteps(state, robot, memory) {
   for (let steps = 0; ; steps++) {

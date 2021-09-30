@@ -1,5 +1,5 @@
-const { triangle, fizzBuzz, chess } = require('./chapter2.js');
-const { min, isEven, countChar } = require('./chapter3.js');
+const { triangle, fizzBuzz, chess } = require('./chapters/chapter2.js');
+const { min, isEven, countChar } = require('./chapters/chapter3.js');
 const {
   range,
   sum,
@@ -10,15 +10,16 @@ const {
   prepend,
   nth,
   deepEqual,
-} = require('./chapter4.js');
+} = require('./chapters/chapter4.js');
 const {
   flat,
   loop,
   every1,
   every2,
   dominantDirection,
-} = require('./chapter5.js');
-const { Vec, Group } = require('./chapter6.js');
+} = require('./chapters/chapter5.js');
+const { Vec, Group } = require('./chapters/chapter6.js');
+const { PGroup } = require('./chapters/chapter7.js');
 
 
 //Looping a triangle
@@ -245,3 +246,19 @@ describe('Groups', () => {
 });
  */
 
+//Persistent Groups
+
+describe('Persistent Groups', () => {
+  test(
+    'Should create a class that works as a Set and creates a' +
+      'new Set for every addition or deletion',
+    () => {
+      let a = PGroup.empty.add('a');
+      let ab = a.add('b');
+      let b = ab.delete('a');
+      expect(b.has('b')).toBe(true);
+      expect(a.has('b')).toBe(false);
+      expect(b.has('a')).toBe(false);
+    }
+  );
+});

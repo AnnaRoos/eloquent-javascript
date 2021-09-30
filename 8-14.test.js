@@ -1,25 +1,9 @@
-const { PGroup } = require('./chapter7.js');
-const { reliableMultiply, withBoxUnlocked, box } = require('./chapter8.js');
-const { verify } = require('./chapter9.js');
-const { locateScalpel, locateScalpel2 } = require('./chapter11.js');
+const { reliableMultiply, withBoxUnlocked, box } = require('./chapters/chapter8.js');
+const { verify } = require('./chapters/chapter9.js');
+const { locateScalpel, locateScalpel2 } = require('./chapters/chapter11.js');
 const bigOak = require('./filesFromBook/crow-tech.js').bigOak;
 
-//Persistent Groups
 
-describe('Persistent Groups', () => {
-  test(
-    'Should create a class that works as a Set and creates a' +
-      'new Set for every addition or deletion',
-    () => {
-      let a = PGroup.empty.add('a');
-      let ab = a.add('b');
-      let b = ab.delete('a');
-      expect(b.has('b')).toBe(true);
-      expect(a.has('b')).toBe(false);
-      expect(b.has('a')).toBe(false);
-    }
-  );
-});
 
 //Retry
 
