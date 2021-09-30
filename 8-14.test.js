@@ -2,6 +2,7 @@ const { PGroup } = require('./chapter7.js');
 const { reliableMultiply, withBoxUnlocked, box } = require('./chapter8.js');
 const { verify } = require('./chapter9.js');
 const { locateScalpel, locateScalpel2 } = require('./chapter11.js');
+const bigOak = require('./filesFromBook/crow-tech.js').bigOak;
 
 //Persistent Groups
 
@@ -60,34 +61,40 @@ describe('Regexp golf', () => {
     () => {
       expect(
         verify(/ca(r|t)/, ['my car', 'bad cats'], ['camper', 'high art'])
-      ).toEqual({ 'matches': ['my car', 'bad cats'], 'wrongMatches': [] }); //car, cat
+      ).toEqual({ matches: ['my car', 'bad cats'], wrongMatches: [] }); //car, cat
       expect(
         verify(/pr?op/, ['pop culture', 'mad props'], ['plop', 'prrrop'])
-      ).toEqual({ 'matches': ['pop culture', 'mad props'], 'wrongMatches': [] }); //pop, prop
+      ).toEqual({ matches: ['pop culture', 'mad props'], wrongMatches: [] }); //pop, prop
       expect(
         verify(
           /ferr(et|y|ari)/,
           ['ferret', 'ferry', 'ferrari'],
           ['ferrum', 'transfer A']
         )
-      ).toEqual({ 'matches': ['ferret', 'ferry', 'ferrari'], 'wrongMatches': [] }); //ferret, ferry, ferrari
+      ).toEqual({ matches: ['ferret', 'ferry', 'ferrari'], wrongMatches: [] }); //ferret, ferry, ferrari
       expect(
         verify(
           /ious\b/,
           ['how delicious', 'spacious room'],
           ['ruinous', 'consciousness']
         )
-      ).toEqual({ 'matches': ['how delicious', 'spacious room'], 'wrongMatches': [] }); //Any word ending in ious
+      ).toEqual({
+        matches: ['how delicious', 'spacious room'],
+        wrongMatches: [],
+      }); //Any word ending in ious
       expect(
         verify(/\s[.,:;]/, ['bad punctuation .'], ['escape the period'])
-      ).toEqual({ 'matches': ['bad punctuation .'], 'wrongMatches': [] }); //A whitespace character followed by a period, comma, colon, or semicolon
+      ).toEqual({ matches: ['bad punctuation .'], wrongMatches: [] }); //A whitespace character followed by a period, comma, colon, or semicolon
       expect(
         verify(
           /\w{7}/,
           ['Siebentausenddreihundertzweiundzwanzig'],
           ['no', 'three small words']
         )
-      ).toEqual({ 'matches': ['Siebentausenddreihundertzweiundzwanzig'], 'wrongMatches': [] }); //A word longer than six letters
+      ).toEqual({
+        matches: ['Siebentausenddreihundertzweiundzwanzig'],
+        wrongMatches: [],
+      }); //A word longer than six letters
       expect(
         verify(
           /\b[^\se]+\b/i,
@@ -95,8 +102,8 @@ describe('Regexp golf', () => {
           ['earth bed', 'learning ape', 'BEET']
         )
       ).toEqual({
-        'matches': ['red platypus', 'wobbling nest'],
-        'wrongMatches': [],
+        matches: ['red platypus', 'wobbling nest'],
+        wrongMatches: [],
       }); //A word without the letter e (or E)
     }
   );
@@ -129,7 +136,7 @@ describe('Quoting style', () => {
 
 describe('Numbers again', () => {
   test('Write a regex for all types of Javascript numbers', () => {
-    //My solution 
+    //My solution
     let numberRegex = /^[+-]?(\d+(\.\d*)?|\.\d+)(e[+-]?\d+)?$/i;
     //Solution in book
     /^[+\-]?(\d+(\.\d*)?|\.\d+)([eE][+\-]?\d+)?$/;
@@ -154,15 +161,24 @@ describe('Numbers again', () => {
       '1f5',
       '.',
     ];
-    expect(verify(numberRegex, correctNumbers, incorrectNumbers)).toEqual({ 'matches': correctNumbers, 'wrongMatches': [] });
+    expect(verify(numberRegex, correctNumbers, incorrectNumbers)).toEqual({
+      matches: correctNumbers,
+      wrongMatches: [],
+    });
   });
 });
 
 //Tracking the scalpel
 
 describe('Tracking the scalpel', () => {
-  test('Should return the location of the scalpel – first function should use async await, the other Promises', () => {
-    expect(locateScalpel(bigOak)).toEqual('Butcher Shop');
-    expect(locateScalpel2(bigOak)).toEqual('Butcher Shop');
-  });
+  test(
+    'Should return the location of the scalpel – first function should use async await,' +
+      'the other just callback functions',
+    async () => {
+      const scalpelLocation = await locateScalpel(bigOak);
+      const scalpelLocation2 = await locateScalpel2(bigOak);
+      expect(scalpelLocation).toBe('Butcher Shop');
+      expect(scalpelLocation2).toBe('Butcher Shop');
+    }
+  );
 });
