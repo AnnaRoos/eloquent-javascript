@@ -1,9 +1,13 @@
-const { reliableMultiply, withBoxUnlocked, box } = require('./chapters/chapter8.js');
+const {
+  reliableMultiply,
+  withBoxUnlocked,
+  box,
+} = require('./chapters/chapter8.js');
 const { verify } = require('./chapters/chapter9.js');
 const { locateScalpel, locateScalpel2 } = require('./chapters/chapter11.js');
 const bigOak = require('./filesFromBook/crow-tech.js').bigOak;
 
-
+const { Promise_all, soon } = require('./chapters/chapter11.js');
 
 //Retry
 
@@ -166,3 +170,21 @@ describe('Tracking the scalpel', () => {
     }
   );
 });
+
+//Building Promise.all
+
+describe('Building Promise.all', () => {
+  test('Should function as Promise.all and resolve when all promises are resolved', () => {
+    return Promise_all([soon(1), soon(2), soon(3)]).then((data) => {
+      expect(data).toEqual([1, 2, 3]);
+    });
+  });
+  test('Should function as Promise.all and resolve when all promises are resolved, otherwise reject', () => {
+    expect.assertions(1);
+    return Promise_all([soon(1), Promise.reject('X'), soon(3)]).catch((e) =>
+      expect(e).toMatch('X')
+    );
+  });
+});
+
+
