@@ -6,8 +6,8 @@ const {
 const { verify } = require('./chapters/chapter9.js');
 const { locateScalpel, locateScalpel2 } = require('./chapters/chapter11.js');
 const bigOak = require('./filesFromBook/crow-tech.js').bigOak;
-
 const { Promise_all, soon } = require('./chapters/chapter11.js');
+const { run, topScope } = require('./filesFromBook/12_language.js');
 
 //Retry
 
@@ -187,4 +187,37 @@ describe('Building Promise.all', () => {
   });
 });
 
+//Arrays in Egg
 
+describe('Arrays in Egg', () => {
+  test(
+    'The language Egg should have functions to create an array,' +
+      'to get the length and the element at the nth position of an array',
+    () => {
+      //My solution
+      //The second spread in an array is unnecessary
+
+      topScope.array = (...values) => [...values];
+      topScope.length = (array) => array.length;
+      topScope.element = (array, i) => array[i];
+
+      //Solution in book
+      /* topScope.array = (...values) => values;
+      topScope.length = (array) => array.length;      
+      topScope.element = (array, i) => array[i]; */
+
+      expect(
+        run(`
+do(define(sum, fun(array,
+     do(define(i, 0),
+        define(sum, 0),
+        while(<(i, length(array)),
+          do(define(sum, +(sum, element(array, i))),
+             define(i, +(i, 1)))),
+        sum))),
+   print(sum(array(1, 2, 3))))
+`)
+      ).toEqual(6);
+    }
+  );
+});
