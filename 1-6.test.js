@@ -19,7 +19,7 @@ const {
   dominantDirection,
 } = require('./chapters/chapter5.js');
 const { Vec, Group } = require('./chapters/chapter6.js');
-const { PGroup } = require('./chapters/chapter7.js');
+
 
 
 //Looping a triangle
@@ -246,19 +246,4 @@ describe('Groups', () => {
 });
  */
 
-//Persistent Groups
 
-describe('Persistent Groups', () => {
-  test(
-    'Should create a class that works as a Set and creates a' +
-      'new Set for every addition or deletion',
-    () => {
-      let a = PGroup.empty.add('a');
-      let ab = a.add('b');
-      let b = ab.delete('a');
-      expect(b.has('b')).toBe(true);
-      expect(a.has('b')).toBe(false);
-      expect(b.has('a')).toBe(false);
-    }
-  );
-});
