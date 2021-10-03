@@ -8,7 +8,6 @@ const { locateScalpel, locateScalpel2 } = require('./chapters/chapter11.js');
 const bigOak = require('./filesFromBook/crow-tech.js').bigOak;
 const { Promise_all, soon } = require('./chapters/chapter11.js');
 const { run, topScope, parse } = require('./filesFromBook/12_language.js');
-
 //Retry
 
 describe('Retry', () => {
@@ -232,5 +231,20 @@ describe('Comments in Egg', () => {
       operator: { type: 'word', name: 'a' },
       args: [],
     });
+  });
+});
+
+//Fixing scope
+
+describe('Adding scope to Egg', () => {
+  test('Set should reassign value to defined variable, if variable doesn\'t' 
+    + 'exist it should return a ReferenceError', () => {
+    expect(run(`
+do(define(x, 4),
+   define(setx, fun(val, set(x, val))),
+   setx(50),
+   print(x))
+`)).toEqual(50);
+    expect(() => run(`set(quux, true)`)).toThrow('Variable quux does not exist')
   });
 });

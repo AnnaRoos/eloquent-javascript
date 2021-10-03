@@ -1,5 +1,5 @@
 //The language Egg
-const {skipSpace} = require('../chapters/chapter12.js')
+const { skipSpace } = require('../chapters/chapter12.js');
 
 function parseExpression(program) {
   program = skipSpace(program);
@@ -22,8 +22,6 @@ function parseExpression(program) {
   if (first == -1) return '';
   return string.slice(first);
 } */
-
-
 
 function parseApply(expr, program) {
   program = skipSpace(program);
@@ -133,7 +131,7 @@ for (let op of ['+', '-', '*', '/', '==', '<', '>']) {
 }
 
 topScope.print = (value) => {
-  console.log(value);
+  //  console.log(value);
   return value;
 };
 
@@ -164,5 +162,44 @@ specialForms.fun = (args, scope) => {
     return evaluate(body, localScope);
   };
 };
+
+//Fixing scope
+
+//My solution
+specialForms.set = (args, scope) => {
+  if (args.length != 2 || args[0].type != 'word') {
+    throw new SyntaxError('Incorrect use of set');
+  }
+  let value = evaluate(args[1], scope);
+  let variable = args[0].name;
+  let checkedScope = scope;
+  while (true) {
+    if (Object.prototype.hasOwnProperty.call(checkedScope, variable)) {
+      checkedScope[variable] = value;
+      return value;
+    }
+    if (Object.getPrototypeOf(checkedScope) === null) {
+      throw new ReferenceError(`Variable ${variable} does not exist`);
+    }
+    checkedScope = Object.getPrototypeOf(checkedScope);
+  }
+};
+
+//Solution in book 
+/* specialForms.set = (args, env) => {
+  if (args.length != 2 || args[0].type != 'word') {
+    throw new SyntaxError('Bad use of set');
+  }
+  let varName = args[0].name;
+  let value = evaluate(args[1], env);
+
+  for (let scope = env; scope; scope = Object.getPrototypeOf(scope)) {
+    if (Object.prototype.hasOwnProperty.call(scope, varName)) {
+      scope[varName] = value;
+      return value;
+    }
+  }
+  throw new ReferenceError(`Setting undefined variable ${varName}`);
+}; */
 
 module.exports = { run, topScope, parse };

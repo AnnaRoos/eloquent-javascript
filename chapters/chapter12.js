@@ -1,4 +1,12 @@
+
 //Comments
+
+//Original function
+/* function skipSpace(string) {
+  let first = string.search(/\S/);
+  if (first == -1) return '';
+  return string.slice(first);
+} */
 
 //My solution
 //(Did not look at the hints... that might have helped :)
