@@ -1,4 +1,5 @@
 //The language Egg
+const {skipSpace} = require('../chapters/chapter12.js')
 
 function parseExpression(program) {
   program = skipSpace(program);
@@ -16,11 +17,13 @@ function parseExpression(program) {
   return parseApply(expr, program.slice(match[0].length));
 }
 
-function skipSpace(string) {
+/* function skipSpace(string) {
   let first = string.search(/\S/);
   if (first == -1) return '';
   return string.slice(first);
-}
+} */
+
+
 
 function parseApply(expr, program) {
   program = skipSpace(program);
@@ -162,4 +165,4 @@ specialForms.fun = (args, scope) => {
   };
 };
 
-module.exports = { run, topScope };
+module.exports = { run, topScope, parse };

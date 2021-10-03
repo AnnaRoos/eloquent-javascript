@@ -7,7 +7,7 @@ const { verify } = require('./chapters/chapter9.js');
 const { locateScalpel, locateScalpel2 } = require('./chapters/chapter11.js');
 const bigOak = require('./filesFromBook/crow-tech.js').bigOak;
 const { Promise_all, soon } = require('./chapters/chapter11.js');
-const { run, topScope } = require('./filesFromBook/12_language.js');
+const { run, topScope, parse } = require('./filesFromBook/12_language.js');
 
 //Retry
 
@@ -220,4 +220,17 @@ do(define(sum, fun(array,
       ).toEqual(6);
     }
   );
+});
+
+//Comments
+
+describe('Comments in Egg', () => {
+  test('Remove comments before parsing', () => {
+    expect(parse('# hello\nx')).toEqual({ type: 'word', name: 'x' });
+    expect(parse('a # one\n   # two\n()')).toEqual({
+      type: 'apply',
+      operator: { type: 'word', name: 'a' },
+      args: [],
+    });
+  });
 });
