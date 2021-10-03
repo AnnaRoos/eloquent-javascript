@@ -1,4 +1,9 @@
 //Regexp golf
+//Solution in test file
+
+//Quoting style
+//Solution in test file
+
 //Numbers again
 
 function verify(regexp, yes, no) {
