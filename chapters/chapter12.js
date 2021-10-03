@@ -1,3 +1,5 @@
+//Arrays
+//Solution is in the test
 
 //Comments
 
@@ -23,6 +25,7 @@ function skipSpace(string) {
 // return string.slice(skippable[0].length);
 //}
 
-
+//Fixing scope
+//Solution is in filesFromBook/12_language.js
 
 module.exports = { skipSpace };
