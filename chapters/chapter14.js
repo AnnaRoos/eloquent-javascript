@@ -81,9 +81,9 @@ const byTagName = (node, tagName) => {
   let result = [];
   if (node.childNodes.length === 0) return result;
   for (let child of node.childNodes) {
-     if (child.nodeName.toLowerCase() === tagName) {
-       result = result.concat(child);
-     }
+    if (child.nodeName.toLowerCase() === tagName) {
+      result = result.concat(child);
+    }
     result = result.concat(byTagName(child, tagName));
   }
   return result;
@@ -123,3 +123,30 @@ console.log(byTagName(para, 'p').length);
 let testing = document.querySelector('#test');
 console.log(test.getElementsByTagName('span').length);
 // → 2
+
+//The cat's hat
+const catAndHatDiv = document.getElementById('catandhat');
+catAndHatDiv.style['min-height'] = '200px';
+
+let cat = document.querySelector('#cat');
+let hat = document.querySelector('#hat');
+
+let angle = 0;
+let lastTime = null;
+function animate(time) {
+  if (lastTime != null) angle += (time - lastTime) * 0.001;
+  lastTime = time;
+  cat.style.top = Math.sin(angle) * 40 + 40 + 'px';
+  cat.style.left = Math.cos(angle) * 200 + 230 + 'px';
+
+  //My solution
+  hat.style.top = Math.cos(angle) * 40 + 40 + 'px';
+  hat.style.left = Math.sin(angle) * 200 + 230 + 'px';
+
+  //Solution in book
+/*   hat.style.top = Math.sin(angle + Math.PI) * 40 + 40 + 'px';
+  hat.style.left = Math.cos(angle + Math.PI) * 200 + 230 + 'px'; */
+
+  requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);
