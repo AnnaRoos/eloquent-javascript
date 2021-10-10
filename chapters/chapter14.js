@@ -31,12 +31,9 @@ const createTable = (arr) => {
   for (const obj of MOUNTAINS) {
     let row = elt('tr');
     for (const el in obj) {
-      let tableData;
+      let tableData = elt('td', obj[el].toString());
       if (typeof obj[el] === 'number') {
-        tableData = elt('td', obj[el].toString());
         tableData.style.textAlign = 'right';
-      } else {
-        tableData = elt('td', obj[el]);
       }
       row.appendChild(tableData);
     }
@@ -79,9 +76,50 @@ function buildTable(data) {
 
 //Elements by tag name
 
-`<h1>Heading with a <span>span</span> element.</h1>
-<p>A paragraph with <span>one</span>, <span>two</span>
-  spans.</p>`
+//My solution
 const byTagName = (node, tagName) => {
-
+  let result = [];
+  if (node.childNodes.length === 0) return result;
+  for (let child of node.childNodes) {
+     if (child.nodeName.toLowerCase() === tagName) {
+       result = result.concat(child);
+     }
+    result = result.concat(byTagName(child, tagName));
+  }
+  return result;
 };
+
+//Solution in book
+function byTagName2(node, tagName) {
+  let found = [];
+  tagName = tagName.toUpperCase();
+
+  function explore(node) {
+    for (let i = 0; i < node.childNodes.length; i++) {
+      let child = node.childNodes[i];
+      if (child.nodeType == document.ELEMENT_NODE) {
+        if (child.nodeName == tagName) found.push(child);
+        explore(child);
+      }
+    }
+  }
+
+  explore(node);
+  return found;
+}
+
+//Added extra tests to see whether the function should include or exclude the element it was called on
+//and to see if it could find an element within another element with the same tag name
+console.log(byTagName(document.body, 'h1').length);
+// → 2
+console.log(byTagName(document.body, 'span').length);
+// → 5
+let para = document.querySelector('p');
+console.log(byTagName(para, 'span').length);
+// → 2
+console.log(byTagName(para, 'p').length);
+// → 0
+
+let testing = document.querySelector('#test');
+console.log(test.getElementsByTagName('span').length);
+// → 2
