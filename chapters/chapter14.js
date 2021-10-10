@@ -1,3 +1,5 @@
+//Build a table
+
 const MOUNTAINS = [
   { name: 'Kilimanjaro', height: 5895, place: 'Tanzania' },
   { name: 'Everest', height: 8848, place: 'Nepal' },
@@ -18,7 +20,7 @@ function elt(type, ...children) {
 }
 
 //My solution - using the elt-function from the chapter
-function createTable(arr) {
+const createTable = (arr) => {
   let table = elt('table');
   let tableHeadings = elt('tr');
   for (const key in arr[0]) {
@@ -41,7 +43,7 @@ function createTable(arr) {
     table.appendChild(row);
   }
   return table;
-}
+};
 
 const mountainDiv = document.getElementById('mountains');
 mountainDiv.appendChild(createTable(MOUNTAINS));
@@ -74,3 +76,12 @@ function buildTable(data) {
 
   return table;
 }
+
+//Elements by tag name
+
+`<h1>Heading with a <span>span</span> element.</h1>
+<p>A paragraph with <span>one</span>, <span>two</span>
+  spans.</p>`
+const byTagName = (node, tagName) => {
+
+};

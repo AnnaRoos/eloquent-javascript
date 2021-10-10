@@ -1,5 +1,5 @@
-const { triangle, fizzBuzz, chess } = require('./chapters/chapter2.js');
-const { min, isEven, countChar } = require('./chapters/chapter3.js');
+const { triangle, fizzBuzz, chess } = require('../chapters/chapter2.js');
+const { min, isEven, countChar } = require('../chapters/chapter3.js');
 const {
   range,
   sum,
@@ -10,15 +10,15 @@ const {
   prepend,
   nth,
   deepEqual,
-} = require('./chapters/chapter4.js');
+} = require('../chapters/chapter4.js');
 const {
   flat,
   loop,
   every1,
   every2,
   dominantDirection,
-} = require('./chapters/chapter5.js');
-const { Vec, Group } = require('./chapters/chapter6.js');
+} = require('../chapters/chapter5.js');
+const { Vec, Group } = require('../chapters/chapter6.js');
 
 
 

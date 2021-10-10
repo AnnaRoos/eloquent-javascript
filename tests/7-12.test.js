@@ -1,14 +1,14 @@
-const { PGroup } = require('./chapters/chapter7.js');
+const { PGroup } = require('../chapters/chapter7.js');
 const {
   reliableMultiply,
   withBoxUnlocked,
   box,
-} = require('./chapters/chapter8.js');
-const { verify } = require('./chapters/chapter9.js');
-const { locateScalpel, locateScalpel2 } = require('./chapters/chapter11.js');
-const bigOak = require('./filesFromBook/crow-tech.js').bigOak;
-const { Promise_all, soon } = require('./chapters/chapter11.js');
-const { run, topScope, parse } = require('./filesFromBook/12_language.js');
+} = require('../chapters/chapter8.js');
+const { verify } = require('../chapters/chapter9.js');
+const { locateScalpel, locateScalpel2 } = require('../chapters/chapter11.js');
+const bigOak = require('../filesFromBook/crow-tech.js').bigOak;
+const { Promise_all, soon } = require('../chapters/chapter11.js');
+const { run, topScope, parse } = require('../filesFromBook/12_language.js');
 
 //Persistent Groups
 
