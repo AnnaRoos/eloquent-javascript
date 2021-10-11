@@ -5,7 +5,7 @@ const balloon = document.getElementById('balloon');
 let size = 50;
 balloon.style.fontSize = `${size}px`;
 
-window.addEventListener('keydown', function blowUp(event) {
+const balloonHandler = (event) => {
   event.preventDefault();
   if (event.key === 'ArrowUp') {
     size *= 1.1;
@@ -16,9 +16,11 @@ window.addEventListener('keydown', function blowUp(event) {
   balloon.style.fontSize = `${size}px`;
   if (size > 200) {
     balloon.innerHTML = '💥';
-    window.removeEventListener('keydown', blowUp);
+    window.removeEventListener('keydown', balloonHandler);
   }
-});
+}
+
+window.addEventListener('keydown', balloonHandler);
 
 //Solution in book
 /*   let p = document.querySelector('p');
@@ -44,3 +46,11 @@ window.addEventListener('keydown', function blowUp(event) {
     }
   }
   document.body.addEventListener('keydown', handleArrow); */
+
+  //Mouse trail
+
+const trailHandler = (event) => {
+  
+};
+
+window.addEventListener('mousemove', trailHandler);
