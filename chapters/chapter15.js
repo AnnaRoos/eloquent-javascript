@@ -18,7 +18,7 @@ const balloonHandler = (event) => {
     balloon.innerHTML = '💥';
     window.removeEventListener('keydown', balloonHandler);
   }
-}
+};
 
 window.addEventListener('keydown', balloonHandler);
 
@@ -47,10 +47,40 @@ window.addEventListener('keydown', balloonHandler);
   }
   document.body.addEventListener('keydown', handleArrow); */
 
-  //Mouse trail
+//Mouse trail
 
-const trailHandler = (event) => {
-  
+const boxFactory = () => {
+  let box = document.createElement('div');
+  box.className = 'trail';
+  return box;
 };
 
-window.addEventListener('mousemove', trailHandler);
+//My solution
+const trailHandler = (event) => {
+  let box = boxFactory();
+  box.style.left = event.pageX - 3 + 'px';
+  box.style.top = event.pageY - 3 + 'px';
+  document.body.appendChild(box);
+  setTimeout(() => {
+    box.remove();
+  }, 100);
+};
+
+  let dots = [];
+  for (let i = 0; i < 12; i++) {
+    let node = document.createElement('div');
+    node.className = 'trail';
+    document.body.appendChild(node);
+    dots.push(node);
+  }
+  let currentDot = 0;
+
+  window.addEventListener('mousemove', (event) => {
+    let dot = dots[currentDot];
+    dot.style.left = event.pageX - 3 + 'px';
+    dot.style.top = event.pageY - 3 + 'px';
+    currentDot = (currentDot + 1) % dots.length;
+  });
+
+/* window.addEventListener('mousemove', trailHandler);
+ */
