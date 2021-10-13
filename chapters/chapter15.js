@@ -89,6 +89,8 @@ window.addEventListener('mousemove', trailHandler);
 //Tabs
 
 //My solution
+//I should have put the buttons and tab content together in an object as the solution in book 
+//to be able to change both in one loop - good learning!
 const tabHandler = (event) => {
   document.querySelectorAll('.tab-content').forEach((el) => {
     if (event.target.innerHTML === el.getAttribute('data-tabname')) {
