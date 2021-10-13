@@ -66,7 +66,11 @@ const trailHandler = (event) => {
   }, 100);
 };
 
-  let dots = [];
+window.addEventListener('mousemove', trailHandler);
+
+//Solution in book
+
+/*   let dots = [];
   for (let i = 0; i < 12; i++) {
     let node = document.createElement('div');
     node.className = 'trail';
@@ -80,7 +84,71 @@ const trailHandler = (event) => {
     dot.style.left = event.pageX - 3 + 'px';
     dot.style.top = event.pageY - 3 + 'px';
     currentDot = (currentDot + 1) % dots.length;
-  });
+  }); */
 
-/* window.addEventListener('mousemove', trailHandler);
- */
+//Tabs
+
+//My solution
+const tabHandler = (event) => {
+  document.querySelectorAll('.tab-content').forEach((el) => {
+    if (event.target.innerHTML === el.getAttribute('data-tabname')) {
+      el.style.display = 'block';
+    } else {
+      el.style.display = 'none';
+    }
+  });
+  document.querySelectorAll('button').forEach((button) => {
+    if (button === event.target) {
+      button.classList.add('clicked');
+    } else {
+      button.classList.remove('clicked');
+    }
+  });
+};
+
+const asTabs = (node) => {
+  let list = document.createElement('ul');
+  let count = 1;
+  for (const child of node.childNodes) {
+    if (child.nodeType === document.ELEMENT_NODE) {
+      let button = document.createElement('button');
+      button.innerHTML = child.getAttribute('data-tabname');
+      button.onclick = tabHandler;
+      if (count === 1) {
+        child.style.display = 'block';
+        button.classList.add('clicked');
+      } else child.style.display = 'none';
+      child.className = 'tab-content';
+      count++;
+      list.appendChild(button);
+    }
+  }
+  node.insertAdjacentElement('afterbegin', list);
+};
+
+asTabs(document.querySelector('.tab-panel'));
+
+
+//Solution in book
+/*   function asTabs(node) {
+    let tabs = Array.from(node.children).map((node) => {
+      let button = document.createElement('button');
+      button.textContent = node.getAttribute('data-tabname');
+      let tab = { node, button };
+      button.addEventListener('click', () => selectTab(tab));
+      return tab;
+    });
+
+    let tabList = document.createElement('div');
+    for (let { button } of tabs) tabList.appendChild(button);
+    node.insertBefore(tabList, node.firstChild);
+
+    function selectTab(selectedTab) {
+      for (let tab of tabs) {
+        let selected = tab == selectedTab;
+        tab.node.style.display = selected ? '' : 'none';
+        tab.button.style.color = selected ? 'red' : '';
+      }
+    }
+    selectTab(tabs[0]);
+  } */
