@@ -59,6 +59,9 @@ function lazyRobot({ place, parcels }, route) {
 
 /* runRobot(VillageState.random(), lazyRobot, []);
  */
+
+
+
 //Persitent Group
 //My solution
 class PGroup {
