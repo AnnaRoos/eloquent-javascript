@@ -32,23 +32,29 @@ async function runGame(plans, Display) {
 
 //Pausing the game
 
-let pause = false;
-const pauseHandler = (event) => {
-  if (event.key === 'Escape') {
-    event.preventDefault();
-    return pause ? false : true;
-  }
-};
-  
-window.addEventListener('keydown', pauseHandler);
-
-
+//My solution
 function runLevel(level, Display) {
   let display = new Display(document.body, level);
   let state = State.start(level);
   let ending = 1;
   return new Promise((resolve) => {
-    runAnimation((time) => {
+    let isPaused = false;
+    const pauseHandler = (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        if (isPaused) {
+          runAnimation(start);
+          isPaused = false;
+        } else {
+          isPaused = true;
+        }
+      }
+    };
+
+    window.addEventListener('keydown', pauseHandler);
+
+    const start = (time) => {
+      if (isPaused) return false;
       state = state.update(time, arrowKeys);
       display.syncState(state);
       if (state.status == 'playing') {
@@ -56,13 +62,63 @@ function runLevel(level, Display) {
       } else if (ending > 0) {
         ending -= time;
         return true;
-      } else if (pause) {
-        return false;
       } else {
         display.clear();
+        window.removeEventListener('keydown', escHandler);
         resolve(state.status);
         return false;
       }
-    });
+    };
+
+    runAnimation(start);
   });
 }
+
+
+//Solution in book
+  function runLevel(level, Display) {
+    let display = new Display(document.body, level);
+    let state = State.start(level);
+    let ending = 1;
+    let running = 'yes';
+
+    return new Promise((resolve) => {
+      function escHandler(event) {
+        if (event.key != 'Escape') return;
+        event.preventDefault();
+        if (running == 'no') {
+          running = 'yes';
+          runAnimation(frame);
+        } else if (running == 'yes') {
+          running = 'pausing';
+        } else {
+          running = 'yes';
+        }
+      }
+      window.addEventListener('keydown', escHandler);
+      let arrowKeys = trackKeys(['ArrowLeft', 'ArrowRight', 'ArrowUp']);
+
+      function frame(time) {
+        if (running == 'pausing') {
+          running = 'no';
+          return false;
+        }
+
+        state = state.update(time, arrowKeys);
+        display.syncState(state);
+        if (state.status == 'playing') {
+          return true;
+        } else if (ending > 0) {
+          ending -= time;
+          return true;
+        } else {
+          display.clear();
+          window.removeEventListener('keydown', escHandler);
+          arrowKeys.unregister();
+          resolve(state.status);
+          return false;
+        }
+      }
+      runAnimation(frame);
+    });
+  }
