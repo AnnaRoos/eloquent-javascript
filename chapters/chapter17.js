@@ -33,6 +33,24 @@ diamond(cx, 50, 50, 50);
 trapezoid(cx, 50, 50, 30, 70, 60);
 
 //3. A zigzagging line
+const zigzag = (context, startX, startY, width, height, lines) => {
+  const spaceBetween = height / lines;
+  context.beginPath();
+  context.moveTo(startX, startY);
+  let y = startY;
+  while (true) {
+    y += spaceBetween;
+    context.lineTo(startX + width, y);
+    if (y >= startY + height) break;
+    y += spaceBetween;
+    context.lineTo(startX, y);
+    if (y >= startY + height) break;
+  }
+  context.stroke();
+};
+cx.fillStyle = 'lightblue';
+cx.fillRect(300, 60, 50, 100);
+zigzag(cx, 300, 60, 50, 100, 10);
 
 //4. A spiral made up of 100 straight line segments
 
