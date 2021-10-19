@@ -52,5 +52,18 @@ cx.fillRect(300, 60, 50, 100);
 zigzag(cx, 300, 60, 50, 100, 9);
 
 //4. A spiral made up of 100 straight line segments
+//Got some help from Stack overflow...
+const spiral = (context, centerX, centerY, lineLength) => {
+  context.moveTo(centerX, centerY);
+    context.beginPath();
+    for (i = 0; i < 100; i++) {
+      let angle = lineLength * i;
+      x = centerX + angle * Math.cos(angle);
+      y = centerY + angle * Math.sin(angle);
+      context.lineTo(x, y);
+    }
+  context.stroke();
+};
+spiral(cx, 450, 100, 0.9);
 
 //5. A yellow star
