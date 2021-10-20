@@ -103,8 +103,7 @@ let radius = 100;
 for (let result of results) {
   let sliceAngle = (result.count / total) * 2 * Math.PI;
   let textPosition = currentAngle + sliceAngle / 2;
-  let offsetX = 0;
-  let offsetY = 0;
+  let offset = 20;
   console.log(textPosition);
   
   cx.beginPath();
@@ -116,16 +115,13 @@ for (let result of results) {
   cx.font = '14px Georgia';
   cx.fillStyle = 'black';
   textPosition > Math.PI / 2
-    ? (offsetX = -90)
-    : (offsetX = 20);
-  textPosition > 4 || textPosition < -1
-    ? (offsetY = -20)
-    : offsetY;
-  textPosition > 1 && textPosition < 2 ? offsetY = 20 : offsetY;
+    ? cx.textAlign = 'right'
+    : cx.textAlign = 'left';
+  cx.textBaseline = 'middle';
   cx.fillText(
     result.name,
-    centerX + offsetX + radius * Math.cos(textPosition),
-    centerY + offsetY + radius * Math.sin(textPosition)
+    centerX + (offset + radius) * Math.cos(textPosition),
+    centerY + (offset + radius) * Math.sin(textPosition)
   );
   currentAngle += sliceAngle;
 }
