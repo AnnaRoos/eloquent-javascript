@@ -94,6 +94,7 @@ const results = [
   { name: 'Unsatisfied', count: 510, color: 'pink' },
   { name: 'No comment', count: 75, color: 'silver' },
 ];
+
 let total = results.reduce((sum, { count }) => sum + count, 0);
 let currentAngle = -0.5 * Math.PI;
 let centerX = 300,
@@ -101,17 +102,17 @@ let centerX = 300,
 let radius = 100;
 
 for (let result of results) {
+
   let sliceAngle = (result.count / total) * 2 * Math.PI;
   let textPosition = currentAngle + sliceAngle / 2;
   let offset = 20;
-  console.log(textPosition);
   
   cx.beginPath();
   cx.arc(centerX, centerY, radius, currentAngle, currentAngle + sliceAngle);
-
   cx.lineTo(centerX, centerY);
   cx.fillStyle = result.color;
   cx.fill();
+
   cx.font = '14px Georgia';
   cx.fillStyle = 'black';
   textPosition > Math.PI / 2
@@ -123,5 +124,6 @@ for (let result of results) {
     centerX + (offset + radius) * Math.cos(textPosition),
     centerY + (offset + radius) * Math.sin(textPosition)
   );
+  
   currentAngle += sliceAngle;
 }
