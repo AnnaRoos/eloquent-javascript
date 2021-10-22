@@ -19,23 +19,31 @@ const getResponseTypes = async (types) => {
 /* getResponseTypes(acceptTypes); */
 
 //A JavaScript workbench
-
+//My solution
 const textArea = document.querySelector('#code');
 const button = document.querySelector('#button');
 const output = document.querySelector('#output');
 
 const createFunction = () => {
- let newFunction 
+  let newFunction;
   try {
     newFunction = Function('', textArea.value);
+    output.innerHTML = newFunction();
   } catch (error) {
-    return (output.innerHTML = error);
-  }
-  try {
-    return (output.innerHTML = newFunction());
-  } catch (error) {
-    return (output.innerHTML = error);
+    output.innerHTML = error;
   }
 };
 
 button.addEventListener('click', createFunction);
+
+//Solution in book
+/* document.querySelector('#button').addEventListener('click', () => {
+  let code = document.querySelector('#code').value;
+  let outputNode = document.querySelector('#output');
+  try {
+    let result = Function(code)();
+    outputNode.innerText = String(result);
+  } catch (e) {
+    outputNode.innerText = 'Error: ' + e;
+  }
+}); */
