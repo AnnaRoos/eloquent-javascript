@@ -47,3 +47,48 @@ button.addEventListener('click', createFunction);
     outputNode.innerText = 'Error: ' + e;
   }
 }); */
+
+//Conway’s game of life
+
+const grid = document.querySelector('#grid');
+const nextGenButton = document.querySelector('#next');
+
+class State {
+  constructor(rows) {
+    this.rows = rows;
+  }
+}
+
+
+
+const createGrid = (rows, columns) => {
+  let table = document.createElement('table');
+  for (let y = 0; y < rows; y++) {
+    let tableRow = document.createElement('tr');
+    for (let x = 0; x < columns; x++) {
+      let tableData = document.createElement('td');
+      let input = document.createElement('input');
+      input.type = 'checkbox';
+      input.id = `${x}${y}`;
+      tableData.appendChild(input);
+      tableRow.appendChild(tableData);
+    }
+    table.appendChild(tableRow);
+  }
+  return table;
+};
+
+
+
+
+grid.appendChild(createGrid(10, 10));
+
+
+const createNextGen = () => {
+  console.log(grid.children);
+};
+grid.addEventListener('click', (event) => {
+  console.log(event.target.id);
+});
+
+nextGenButton.addEventListener('click', createNextGen);
