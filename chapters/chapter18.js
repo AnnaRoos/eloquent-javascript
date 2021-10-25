@@ -53,23 +53,31 @@ button.addEventListener('click', createFunction);
 const grid = document.querySelector('#grid');
 const nextGenButton = document.querySelector('#next');
 
-let rows = 16;
-let columns = 16;
+const rows = 16;
+const columns = 16;
 
-const randomGeneration = () => {
-  let randomGen = [];
+const createGeneration = (type = 'random') => {
+  let generation = [];
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < columns; x++) {
-      if (Math.random() * 10 > 5) {
-        randomGen.push(`${x}${y}`);
+      if (type === 'random') {
+        if (Math.random() * 10 > 5) {
+          generation.push(`${x}${y}`);
+        }
+      }
+      if (type === 'current') {
+        let currentBox = document.getElementById(`${x}${y}`);
+        if (currentBox.checked) {
+          generation.push(currentBox.id);
+        }
       }
     }
   }
-  return randomGen;
+  return generation;
 };
 
 const createPlayingField = (nextGen = null) => {
-  let living = nextGen || randomGeneration();
+  let living = nextGen || createGeneration();
   let table = document.createElement('table');
   for (let y = 0; y < rows; y++) {
     let tableRow = document.createElement('tr');
@@ -89,21 +97,9 @@ const createPlayingField = (nextGen = null) => {
   return table;
 };
 
-const currentGeneration = () => {
-  let currGen = [];
-  for (let y = 0; y < rows; y++) {
-    for (let x = 0; x < columns; x++) {
-      let currentBox = document.getElementById(`${x}${y}`);
-      if (currentBox.checked) {
-        currGen.push(currentBox.id);
-      }
-    }
-  }
-  return currGen;
-};
 
 const nextGenHandler = () => {
-  let oldGen = currentGeneration();
+  let oldGen = createGeneration('current');
   let newGen = [];
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < columns; x++) {
