@@ -49,19 +49,28 @@ button.addEventListener('click', createFunction);
 }); */
 
 //Conway’s game of life
-
+//My solution
 const grid = document.querySelector('#grid');
 const nextGenButton = document.querySelector('#next');
 
-class State {
-  constructor(rows) {
-    this.rows = rows;
+let rows = 10;
+let columns = 10;
+let currentGeneration = [];
+
+const randomGeneration = () => {
+  let randomGen = [];
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < columns; x++) {
+      if (Math.random() * 10 > 5) {
+        randomGen.push(`${x}${y}`);
+      }
+    }
   }
-}
+  return randomGen;
+};
 
-
-
-const createGrid = (rows, columns) => {
+const createPlayingField = (nextGen = null) => {
+  currentGeneration = nextGen || randomGeneration();
   let table = document.createElement('table');
   for (let y = 0; y < rows; y++) {
     let tableRow = document.createElement('tr');
@@ -70,6 +79,9 @@ const createGrid = (rows, columns) => {
       let input = document.createElement('input');
       input.type = 'checkbox';
       input.id = `${x}${y}`;
+      if (currentGeneration.includes(input.id)) {
+        input.checked = true;
+      }
       tableData.appendChild(input);
       tableRow.appendChild(tableData);
     }
@@ -78,17 +90,53 @@ const createGrid = (rows, columns) => {
   return table;
 };
 
-
-
-
-grid.appendChild(createGrid(10, 10));
-
-
-const createNextGen = () => {
-  console.log(grid.children);
+const checkHandler = (event) => {
+  if (event.target.checked) currentGeneration.push(event.target.id);
+  else if (!event.target.checked) {
+    let filtered = currentGeneration.filter((el) => el !== event.target.id);
+    currentGeneration = filtered;
+  }
 };
-grid.addEventListener('click', (event) => {
-  console.log(event.target.id);
+
+const nextGenHandler = () => {
+  let newGen = [];
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < columns; x++) {
+      let neighbors = [];
+      let currentbox = document.getElementById(`${x}${y}`);
+
+      if (x != 0) neighbors.push(`${x - 1}${y}`);
+      if (y != 0) neighbors.push(`${x}${y - 1}`);
+      if (x != columns) neighbors.push(`${x + 1}${y}`);
+      if (y != rows) neighbors.push(`${x}${y + 1}`);
+      if (x != 0 && y != rows) neighbors.push(`${x - 1}${y + 1}`);
+      if (y != 0 && x != columns) neighbors.push(`${x + 1}${y - 1}`);
+      if (x != 0 && y != 0) neighbors.push(`${x - 1}${y - 1}`);
+      if (y != rows && x != columns)
+        neighbors.push(`${x + 1}${y + 1}`);
+
+      let livingNeighbors = neighbors.filter((el) => currentGeneration.includes(el));
+
+      if (
+        (currentbox.checked && livingNeighbors.length === 3) || currentbox.checked &&
+        livingNeighbors.length === 2
+      ) {
+        newGen.push(currentbox.id);
+      }
+      if (!currentbox.checked && livingNeighbors.length === 3) {
+        newGen.push(currentbox.id);
+      }
+    }
+  }
+  grid.removeChild(document.querySelector('table'));
+  grid.appendChild(createPlayingField(newGen));
+};
+
+
+
+window.addEventListener('load', () => {
+  grid.appendChild(createPlayingField());
 });
 
-nextGenButton.addEventListener('click', createNextGen);
+grid.addEventListener('click', checkHandler);
+nextGenButton.addEventListener('click', nextGenHandler);
