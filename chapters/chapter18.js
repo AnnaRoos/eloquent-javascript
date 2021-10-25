@@ -53,9 +53,8 @@ button.addEventListener('click', createFunction);
 const grid = document.querySelector('#grid');
 const nextGenButton = document.querySelector('#next');
 
-let rows = 10;
-let columns = 10;
-let currentGeneration = [];
+let rows = 16;
+let columns = 16;
 
 const randomGeneration = () => {
   let randomGen = [];
@@ -70,7 +69,7 @@ const randomGeneration = () => {
 };
 
 const createPlayingField = (nextGen = null) => {
-  currentGeneration = nextGen || randomGeneration();
+  let living = nextGen || randomGeneration();
   let table = document.createElement('table');
   for (let y = 0; y < rows; y++) {
     let tableRow = document.createElement('tr');
@@ -79,7 +78,7 @@ const createPlayingField = (nextGen = null) => {
       let input = document.createElement('input');
       input.type = 'checkbox';
       input.id = `${x}${y}`;
-      if (currentGeneration.includes(input.id)) {
+      if (living.includes(input.id)) {
         input.checked = true;
       }
       tableData.appendChild(input);
@@ -90,41 +89,46 @@ const createPlayingField = (nextGen = null) => {
   return table;
 };
 
-const checkHandler = (event) => {
-  if (event.target.checked) currentGeneration.push(event.target.id);
-  else if (!event.target.checked) {
-    let filtered = currentGeneration.filter((el) => el !== event.target.id);
-    currentGeneration = filtered;
+const currentGeneration = () => {
+  let currGen = [];
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < columns; x++) {
+      let currentBox = document.getElementById(`${x}${y}`);
+      if (currentBox.checked) {
+        currGen.push(currentBox.id);
+      }
+    }
   }
+  return currGen;
 };
 
 const nextGenHandler = () => {
+  let oldGen = currentGeneration();
   let newGen = [];
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < columns; x++) {
       let neighbors = [];
-      let currentbox = document.getElementById(`${x}${y}`);
+      let currentBox = document.getElementById(`${x}${y}`);
 
       if (x != 0) neighbors.push(`${x - 1}${y}`);
       if (y != 0) neighbors.push(`${x}${y - 1}`);
-      if (x != columns) neighbors.push(`${x + 1}${y}`);
-      if (y != rows) neighbors.push(`${x}${y + 1}`);
-      if (x != 0 && y != rows) neighbors.push(`${x - 1}${y + 1}`);
-      if (y != 0 && x != columns) neighbors.push(`${x + 1}${y - 1}`);
+      if (x != columns - 1) neighbors.push(`${x + 1}${y}`);
+      if (y != rows - 1) neighbors.push(`${x}${y + 1}`);
+      if (x != 0 && y != rows - 1) neighbors.push(`${x - 1}${y + 1}`);
+      if (y != 0 && x != columns - 1) neighbors.push(`${x + 1}${y - 1}`);
       if (x != 0 && y != 0) neighbors.push(`${x - 1}${y - 1}`);
-      if (y != rows && x != columns)
-        neighbors.push(`${x + 1}${y + 1}`);
+      if (y != rows - 1 && x != columns - 1) neighbors.push(`${x + 1}${y + 1}`);
 
-      let livingNeighbors = neighbors.filter((el) => currentGeneration.includes(el));
+      let livingNeighbors = neighbors.filter((el) => oldGen.includes(el));
 
       if (
-        (currentbox.checked && livingNeighbors.length === 3) || currentbox.checked &&
-        livingNeighbors.length === 2
+        (currentBox.checked && livingNeighbors.length === 3) ||
+        (currentBox.checked && livingNeighbors.length === 2)
       ) {
-        newGen.push(currentbox.id);
+        newGen.push(currentBox.id);
       }
-      if (!currentbox.checked && livingNeighbors.length === 3) {
-        newGen.push(currentbox.id);
+      if (!currentBox.checked && livingNeighbors.length === 3) {
+        newGen.push(currentBox.id);
       }
     }
   }
@@ -132,11 +136,7 @@ const nextGenHandler = () => {
   grid.appendChild(createPlayingField(newGen));
 };
 
-
-
 window.addEventListener('load', () => {
   grid.appendChild(createPlayingField());
 });
-
-grid.addEventListener('click', checkHandler);
 nextGenButton.addEventListener('click', nextGenHandler);
