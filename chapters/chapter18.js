@@ -56,12 +56,31 @@ const nextGenButton = document.querySelector('#next');
 const rows = 16;
 const columns = 16;
 
+const getNeighbors = (x, y) => {
+  let neighbors = [];
+
+  if (x != 0) neighbors.push(`${x - 1}${y}`);
+  if (y != 0) neighbors.push(`${x}${y - 1}`);
+  if (x != columns - 1) neighbors.push(`${x + 1}${y}`);
+  if (y != rows - 1) neighbors.push(`${x}${y + 1}`);
+  if (x != 0 && y != rows - 1) neighbors.push(`${x - 1}${y + 1}`);
+  if (y != 0 && x != columns - 1) neighbors.push(`${x + 1}${y - 1}`);
+  if (x != 0 && y != 0) neighbors.push(`${x - 1}${y - 1}`);
+  if (y != rows - 1 && x != columns - 1) neighbors.push(`${x + 1}${y + 1}`);
+
+  return neighbors;
+};
+
 const createGeneration = (type = 'random') => {
+  let oldGen;
+  if (type === 'next') {
+    oldGen = createGeneration('current');
+  }
   let generation = [];
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < columns; x++) {
       if (type === 'random') {
-        if (Math.random() * 10 > 5) {
+        if (Math.random() * 10 > 6) {
           generation.push(`${x}${y}`);
         }
       }
@@ -71,13 +90,27 @@ const createGeneration = (type = 'random') => {
           generation.push(currentBox.id);
         }
       }
+      if (type === 'next') {
+        let neighbors = getNeighbors(x, y);
+        let livingNeighbors = neighbors.filter((el) => oldGen.includes(el));
+
+        if (
+          (oldGen.includes(`${x}${y}`) && livingNeighbors.length === 3) ||
+          (oldGen.includes(`${x}${y}`) && livingNeighbors.length === 2)
+        ) {
+          generation.push(`${x}${y}`);
+        }
+
+        if (!oldGen.includes(`${x}${y}`) && livingNeighbors.length === 3) {
+          generation.push(`${x}${y}`);
+        }
+      }
     }
   }
   return generation;
 };
 
-const createPlayingField = (nextGen = null) => {
-  let living = nextGen || createGeneration();
+const createPlayingField = (gen) => {
   let table = document.createElement('table');
   for (let y = 0; y < rows; y++) {
     let tableRow = document.createElement('tr');
@@ -86,7 +119,7 @@ const createPlayingField = (nextGen = null) => {
       let input = document.createElement('input');
       input.type = 'checkbox';
       input.id = `${x}${y}`;
-      if (living.includes(input.id)) {
+      if (gen.includes(input.id)) {
         input.checked = true;
       }
       tableData.appendChild(input);
@@ -97,42 +130,13 @@ const createPlayingField = (nextGen = null) => {
   return table;
 };
 
-
-const nextGenHandler = () => {
-  let oldGen = createGeneration('current');
-  let newGen = [];
-  for (let y = 0; y < rows; y++) {
-    for (let x = 0; x < columns; x++) {
-      let neighbors = [];
-      let currentBox = document.getElementById(`${x}${y}`);
-
-      if (x != 0) neighbors.push(`${x - 1}${y}`);
-      if (y != 0) neighbors.push(`${x}${y - 1}`);
-      if (x != columns - 1) neighbors.push(`${x + 1}${y}`);
-      if (y != rows - 1) neighbors.push(`${x}${y + 1}`);
-      if (x != 0 && y != rows - 1) neighbors.push(`${x - 1}${y + 1}`);
-      if (y != 0 && x != columns - 1) neighbors.push(`${x + 1}${y - 1}`);
-      if (x != 0 && y != 0) neighbors.push(`${x - 1}${y - 1}`);
-      if (y != rows - 1 && x != columns - 1) neighbors.push(`${x + 1}${y + 1}`);
-
-      let livingNeighbors = neighbors.filter((el) => oldGen.includes(el));
-
-      if (
-        (currentBox.checked && livingNeighbors.length === 3) ||
-        (currentBox.checked && livingNeighbors.length === 2)
-      ) {
-        newGen.push(currentBox.id);
-      }
-      if (!currentBox.checked && livingNeighbors.length === 3) {
-        newGen.push(currentBox.id);
-      }
-    }
-  }
-  grid.removeChild(document.querySelector('table'));
-  grid.appendChild(createPlayingField(newGen));
-};
-
 window.addEventListener('load', () => {
-  grid.appendChild(createPlayingField());
+  let startGen = createGeneration();
+  grid.appendChild(createPlayingField(startGen));
 });
-nextGenButton.addEventListener('click', nextGenHandler);
+
+nextGenButton.addEventListener('click', () => {
+  let nextGen = createGeneration('next');
+  grid.removeChild(document.querySelector('table'));
+  grid.appendChild(createPlayingField(nextGen));
+});
