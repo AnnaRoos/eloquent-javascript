@@ -144,7 +144,7 @@ const star = (context, centerX, centerY, radius, beams) => {
   context.fill();
 };
 
-star(cx, 800, 200, 100, 8);
+star(cx, 800, 200, 100, 12);
 
 //Solution in book
 /* function star(x, y) {
@@ -265,8 +265,8 @@ class Vec {
 }
 
 const boxSize = 400;
-let speedX = 80;
-let speedY = 100;
+let speedX = 200;
+let speedY = 150;
 let ball = new Vec(600, 600);
 let ballRadius = 10;
 
@@ -281,8 +281,8 @@ function updateAnimation(step) {
 
   cx.beginPath();
   cx.arc(ball.x, ball.y, ballRadius, 0, 2 * Math.PI);
-  cx.strokeStyle = 'purple';
-  cx.fillStyle = 'purple';
+  cx.strokeStyle = 'red';
+  cx.fillStyle = 'red';
   cx.fill();
   cx.stroke();
 }
