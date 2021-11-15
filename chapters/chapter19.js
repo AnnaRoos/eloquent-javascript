@@ -115,3 +115,24 @@ function drawPicture(picture, canvas, scale, previous) {
     }
   }
 }
+
+//Circles
+//My solution
+//Not finished
+
+function circle(pos, state, dispatch) {
+  function drawCircle(size) {
+      let radius = Math.sqrt(
+        Math.pow(size.x - pos.x, 2) + Math.pow(size.y - pos.y, 2)
+      );
+    let drawn = [];
+    for (let y = yStart; y <= yEnd; y++) {
+      for (let x = xStart; x <= xEnd; x++) {
+        drawn.push({ x, y, color: state.color });
+      }
+    }
+    dispatch({ picture: state.picture.draw(drawn) });
+  }
+  drawCircle(pos);
+  return drawCircle;
+}
