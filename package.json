@@ -11,5 +11,7 @@
   "devDependencies": {
     "jest": "^27.1.0"
   },
-  "type": "module"
+  "dependencies": {
+    "mime": "^2.6.0"
+  }
 }
