@@ -1,107 +1,42 @@
-const { createServer } = require('http');
+//Search tool
+//My solution (did not know how to make in from scratch so changed the solution from sync to async instead)
 
-const methods = Object.create(null);
+const { stat, readdir, readFile } = require('fs').promises;
 
-createServer((request, response) => {
-  let handler = methods[request.method] || notAllowed;
-  handler(request)
-    .catch((error) => {
-      if (error.status != null) return error;
-      return { body: String(error), status: 500 };
-    })
-    .then(({ body, status = 200, type = 'text/plain' }) => {
-      response.writeHead(status, { 'Content-Type': type });
-      if (body && body.pipe) body.pipe(response);
-      else response.end(body);
-    });
-}).listen(8000);
+const searchTerm = new RegExp(process.argv[2]);
 
-async function notAllowed(request) {
-  return {
-    status: 405,
-    body: `Method ${request.method} not allowed.`,
-  };
-}
-
-var { parse } = require('url');
-var { resolve, sep } = require('path');
-
-var baseDirectory = process.cwd();
-
-function urlPath(url) {
-  let { pathname } = parse(url);
-  let path = resolve(decodeURIComponent(pathname).slice(1));
-  if (path != baseDirectory && !path.startsWith(baseDirectory + sep)) {
-    throw { status: 403, body: 'Forbidden' };
-  }
-  return path;
-}
-
-const { createReadStream } = require('fs');
-const { stat, readdir } = require('fs').promises;
-const mime = require('mime');
-
-methods.GET = async function (request) {
-  let path = urlPath(request.url);
-  let stats;
-  try {
-    stats = await stat(path);
-  } catch (error) {
-    if (error.code != 'ENOENT') throw error;
-    else return { status: 404, body: 'File not found' };
-  }
+const search = async (file) => {
+  let stats = await stat(file);
   if (stats.isDirectory()) {
-    return { body: (await readdir(path)).join('\n') };
-  } else {
-    return { body: createReadStream(path), type: mime.getType(path) };
+    for (let f of await readdir(file)) {
+      search(file + '/' + f);
+    }
+  } else if (searchTerm.test(await readFile(file, 'utf8'))) {
+    console.log(file);
   }
 };
 
-const { rmdir, unlink } = require('fs').promises;
-
-methods.DELETE = async function (request) {
-  let path = urlPath(request.url);
-  let stats;
-  try {
-    stats = await stat(path);
-  } catch (error) {
-    if (error.code != 'ENOENT') throw error;
-    else return { status: 204 };
-  }
-  if (stats.isDirectory()) await rmdir(path);
-  else await unlink(path);
-  return { status: 204 };
-};
-
-const { createWriteStream } = require('fs');
-
-function pipeStream(from, to) {
-  return new Promise((resolve, reject) => {
-    from.on('error', reject);
-    to.on('error', reject);
-    to.on('finish', resolve);
-    from.pipe(to);
-  });
+for (let arg of process.argv.slice(3)) {
+  search(arg);
 }
 
-methods.PUT = async function (request) {
-  let path = urlPath(request.url);
-  await pipeStream(request, createWriteStream(path));
-  return { status: 204 };
-};
+//Solution in book
+/* const { statSync, readdirSync, readFileSync } = require('fs');
 
-const { mkdir } = require('fs').promises;
+let searchTerm = new RegExp(process.argv[2]);
 
-methods.MKCOL = async function (request) {
-  let path = urlPath(request.url);
-  let stats;
-  try {
-    stats = await stat(path);
-  } catch (error) {
-    if (error.code != 'ENOENT') throw error;
-    await mkdir(path);
-    return { status: 204 };
+for (let arg of process.argv.slice(3)) {
+  search(arg);
+}
+
+function search(file) {
+  let stats = statSync(file);
+  if (stats.isDirectory()) {
+    for (let f of readdirSync(file)) {
+      search(file + '/' + f);
+    }
+  } else if (searchTerm.test(readFileSync(file, 'utf8'))) {
+    console.log(file);
   }
-  if (stats.isDirectory()) return { status: 204 };
-  else return { status: 400, body: 'Not a directory' };
-};
+}
+ */
