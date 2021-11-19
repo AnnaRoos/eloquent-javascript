@@ -76,3 +76,7 @@ methods.MKCOL = async function (request) {
   if (stats.isDirectory()) return { status: 204 };
   else return { status: 400, body: 'Not a directory' };
 };
+
+//A public space on the web
+//Will do this as a separate project
+
