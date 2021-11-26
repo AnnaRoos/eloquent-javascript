@@ -1,8 +1,9 @@
 var { createServer } = require('http');
 var Router = require('./router');
 var ecstatic = require('ecstatic');
-const { readFile } = require('fs').promises;
-const { writeFile } = require('fs');
+const { readFileSync, writeFile } = require('fs');
+
+const fileName = './talks.json';
 
 var router = new Router();
 var defaultHeaders = { 'Content-Type': 'text/plain' };
@@ -31,23 +32,9 @@ var SkillShareServer = class SkillShareServer {
       }
     });
   }
-  async start(port) {
-    let savedTalks = await this.savedTalks();
-    if (savedTalks) {
-      this.talks = savedTalks;
-    }
+  start(port) {
     this.server.listen(port);
   }
-
-  async savedTalks() {
-    let savedTalks = await readFile('./talks.json', 'utf8').then((text) =>
-      JSON.parse(text)
-    );
-    let talks = Object.create(null);
-    Object.assign(talks, savedTalks);
-    return talks;
-  }
-
   stop() {
     this.server.close();
   }
@@ -115,7 +102,6 @@ router.add(
   async (server, title, request) => {
     let requestBody = await readStream(request);
     let comment;
-    console.log(title)
     try {
       comment = JSON.parse(requestBody);
     } catch (_) {
@@ -179,13 +165,23 @@ SkillShareServer.prototype.waitForChanges = function (time) {
 SkillShareServer.prototype.updated = function () {
   this.version++;
   let response = this.talkResponse();
-
-  writeFile('./talks.json', response.body, (err) => {
-    if (err) console.log(`Failed to write file: ${err}`);
-    else console.log('File written.');
-  });
   this.waiting.forEach((resolve) => resolve(response));
   this.waiting = [];
+  writeFile(fileName, JSON.stringify(this.talks), (e) => {
+    if (e) throw e;
+  });
 };
 
-new SkillShareServer(Object.create(null)).start(8000);
+
+
+function loadTalks() {
+  let json;
+  try {
+    json = JSON.parse(readFileSync(fileName, 'utf8'));
+  } catch (e) {
+    json = {};
+  }
+  return Object.assign(Object.create(null), json);
+}
+
+new SkillShareServer(loadTalks()).start(8000);
