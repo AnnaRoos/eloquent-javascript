@@ -40,6 +40,13 @@ var SkillShareServer = class SkillShareServer {
   }
 };
 
+class Talks {
+  constructor() {
+    
+  }
+}
+  
+  
 const talkPath = /^\/talks\/([^\/]+)$/;
 
 router.add('GET', talkPath, async (server, title) => {
