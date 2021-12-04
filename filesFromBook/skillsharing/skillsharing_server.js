@@ -38,14 +38,7 @@ var SkillShareServer = class SkillShareServer {
   stop() {
     this.server.close();
   }
-};
-
-class Talks {
-  constructor() {
-    
-  }
-}
-  
+};  
   
 const talkPath = /^\/talks\/([^\/]+)$/;
 
